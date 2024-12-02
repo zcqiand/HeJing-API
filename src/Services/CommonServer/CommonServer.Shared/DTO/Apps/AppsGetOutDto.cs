@@ -3,7 +3,7 @@
 /// <summary>
 /// 应用
 /// </summary>
-public class AppsGetOutDto : DtoBase
+public class AppsGetOutDto : CreateInBase
 {
     /// <summary>
     /// 标识

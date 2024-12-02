@@ -3,7 +3,7 @@
 /// <summary>
 /// 资源
 /// </summary>
-public class AppResourceGetOutDto : DtoBase
+public class AppResourceGetOutDto : CreateInBase
 {
     /// <summary>
     /// 标识

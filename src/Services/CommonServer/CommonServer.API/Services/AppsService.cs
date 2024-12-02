@@ -24,7 +24,7 @@ public class AppsService : ServiceBase
     /// <returns></returns>
     public async Task<Guid> Create(AppsCreateInDto input)
     {
-        var model = Mapper.Map<Apps>(input);
+        var model = Mapper.Map<AppEntity>(input);
         
         model.Id = NewId.NextSequentialGuid();
         
@@ -90,7 +90,7 @@ public class AppsService : ServiceBase
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<PagingOut<AppsQueryOutDto>> Query(AppsQueryInDto input)
+    public async Task<PagingOutBase<AppsQueryOutDto>> Query(AppsQueryInDto input)
     {
         var query = from a in _dbContext.Appses.AsNoTracking()
                     select a;
@@ -108,7 +108,7 @@ public class AppsService : ServiceBase
 
         var itemDtos = Mapper.Map<IList<AppsQueryOutDto>>(items);
 
-        return new PagingOut<AppsQueryOutDto>(total, itemDtos);
+        return new PagingOutBase<AppsQueryOutDto>(total, itemDtos);
     }
 
     /// <summary>

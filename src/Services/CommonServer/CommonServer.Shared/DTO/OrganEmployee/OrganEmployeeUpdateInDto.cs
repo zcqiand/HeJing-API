@@ -5,7 +5,7 @@ namespace CommonServer.Shared.DTO.OrganEmployee;
 /// <summary>
 /// 员工
 /// </summary>
-public class OrganEmployeeUpdateInDto : DtoBase
+public class OrganEmployeeUpdateInDto : CreateInBase
 {
     /// <summary>
     /// 标识

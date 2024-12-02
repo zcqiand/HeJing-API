@@ -90,7 +90,7 @@ public class AppOperationLogService : ServiceBase
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<PagingOut<AppOperationLogQueryOutDto>> Query(AppOperationLogQueryInDto input)
+    public async Task<PagingOutBase<AppOperationLogQueryOutDto>> Query(AppOperationLogQueryInDto input)
     {
         var query = from a in _dbContext.AppOperationLogs.AsNoTracking()
                     select a;
@@ -108,7 +108,7 @@ public class AppOperationLogService : ServiceBase
 
         var itemDtos = Mapper.Map<IList<AppOperationLogQueryOutDto>>(items);
 
-        return new PagingOut<AppOperationLogQueryOutDto>(total, itemDtos);
+        return new PagingOutBase<AppOperationLogQueryOutDto>(total, itemDtos);
     }
 
     /// <summary>

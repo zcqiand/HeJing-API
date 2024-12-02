@@ -9,7 +9,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 资源
 /// </summary>
-[Table("AppResource")]
+[Table("BaseAppResource")]
 [Comment("资源")]
 public partial class AppResource : TreeEntity<AppResource>
 {

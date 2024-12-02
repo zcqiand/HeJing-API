@@ -90,7 +90,7 @@ public class AppFunctionService : ServiceBase
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<PagingOut<AppFunctionQueryOutDto>> Query(AppFunctionQueryInDto input)
+    public async Task<PagingOutBase<AppFunctionQueryOutDto>> Query(AppFunctionQueryInDto input)
     {
         var query = from a in _dbContext.AppFunctions.AsNoTracking()
                     select a;
@@ -108,7 +108,7 @@ public class AppFunctionService : ServiceBase
 
         var itemDtos = Mapper.Map<IList<AppFunctionQueryOutDto>>(items);
 
-        return new PagingOut<AppFunctionQueryOutDto>(total, itemDtos);
+        return new PagingOutBase<AppFunctionQueryOutDto>(total, itemDtos);
     }
 
     /// <summary>

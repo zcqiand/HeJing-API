@@ -25,10 +25,10 @@ public class DtoToDomainProfile : Profile
     public DtoToDomainProfile()
     {
         #region Apps
-        CreateMap<AppsCreateInDto, Apps>();
-        CreateMap<AppsUpdateInDto, Apps>();
-        CreateMap<Apps, AppsQueryOutDto>();
-        CreateMap<Apps, AppsGetOutDto>();
+        CreateMap<AppsCreateInDto, AppEntity>();
+        CreateMap<AppsUpdateInDto, AppEntity>();
+        CreateMap<AppEntity, AppsQueryOutDto>();
+        CreateMap<AppEntity, AppsGetOutDto>();
         #endregion
 
         #region AppResource
@@ -47,10 +47,10 @@ public class DtoToDomainProfile : Profile
         #endregion
 
         #region AppData
-        CreateMap<AppsDataCreateInDto, AppData>();
-        CreateMap<AppDataUpdateInDto, AppData>();
-        CreateMap<AppData, AppDataQueryOutDto>();
-        CreateMap<AppData, AppDataGetOutDto>();
+        CreateMap<AppsDataCreateInDto, BaseAppData>();
+        CreateMap<AppDataUpdateInDto, BaseAppData>();
+        CreateMap<BaseAppData, AppDataQueryOutDto>();
+        CreateMap<BaseAppData, AppDataGetOutDto>();
         #endregion
 
         #region AppOperationLog
@@ -61,60 +61,60 @@ public class DtoToDomainProfile : Profile
         #endregion
 
         #region Organs
-        CreateMap<OrgansCreateInDto, Organs>();
-        CreateMap<OrgansUpdateInDto, Organs>();
-        CreateMap<Organs, OrgansQueryOutDto>();
-        CreateMap<Organs, OrgansGetOutDto>();
+        CreateMap<OrgansCreateInDto, OwnerEntity>();
+        CreateMap<OrgansUpdateInDto, OwnerEntity>();
+        CreateMap<OwnerEntity, OrgansQueryOutDto>();
+        CreateMap<OwnerEntity, OrgansGetOutDto>();
         #endregion
 
         #region OrganEmployeeRole
-        CreateMap<OrganEmployeeRoleCreateInDto, OrganEmployeeRole>();
-        CreateMap<OrganEmployeeRoleUpdateInDto, OrganEmployeeRole>();
-        CreateMap<OrganEmployeeRole, OrganEmployeeRoleQueryOutDto>();
-        CreateMap<OrganEmployeeRole, OrganEmployeeRoleGetOutDto>();
+        CreateMap<OrganEmployeeRoleCreateInDto, OwnerEmployeeRole>();
+        CreateMap<OrganEmployeeRoleUpdateInDto, OwnerEmployeeRole>();
+        CreateMap<OwnerEmployeeRole, OrganEmployeeRoleQueryOutDto>();
+        CreateMap<OwnerEmployeeRole, OrganEmployeeRoleGetOutDto>();
         #endregion
 
         #region OrganRole
-        CreateMap<OrganRoleCreateInDto, OrganRole>();
-        CreateMap<OrganRoleUpdateInDto, OrganRole>();
-        CreateMap<OrganRole, OrganRoleQueryOutDto>();
-        CreateMap<OrganRole, OrganRoleGetOutDto>();
+        CreateMap<OrganRoleCreateInDto, OwnerRole>();
+        CreateMap<OrganRoleUpdateInDto, OwnerRole>();
+        CreateMap<OwnerRole, OrganRoleQueryOutDto>();
+        CreateMap<OwnerRole, OrganRoleGetOutDto>();
         #endregion
 
         #region OrganRoleResource
-        CreateMap<OrganRoleResourceCreateInDto, OrganRoleResource>();
-        CreateMap<OrganRoleResourceUpdateInDto, OrganRoleResource>();
-        CreateMap<OrganRoleResource, OrganRoleResourceQueryOutDto>();
-        CreateMap<OrganRoleResource, OrganRoleResourceGetOutDto>();
+        CreateMap<OrganRoleResourceCreateInDto, OwnerRoleResource>();
+        CreateMap<OrganRoleResourceUpdateInDto, OwnerRoleResource>();
+        CreateMap<OwnerRoleResource, OrganRoleResourceQueryOutDto>();
+        CreateMap<OwnerRoleResource, OrganRoleResourceGetOutDto>();
         #endregion
 
         #region OrganRoleFunction
-        CreateMap<OrganRoleFunctionCreateInDto, OrganRoleFunction>();
-        CreateMap<OrganRoleFunctionUpdateInDto, OrganRoleFunction>();
-        CreateMap<OrganRoleFunction, OrganRoleFunctionQueryOutDto>();
-        CreateMap<OrganRoleFunction, OrganRoleFunctionGetOutDto>();
+        CreateMap<OrganRoleFunctionCreateInDto, OwnerRoleFunction>();
+        CreateMap<OrganRoleFunctionUpdateInDto, OwnerRoleFunction>();
+        CreateMap<OwnerRoleFunction, OrganRoleFunctionQueryOutDto>();
+        CreateMap<OwnerRoleFunction, OrganRoleFunctionGetOutDto>();
         #endregion
 
         #region OrganRoleData
-        CreateMap<OrganRoleDataCreateInDto, OrganRoleData>();
-        CreateMap<OrganRoleDataUpdateInDto, OrganRoleData>();
-        CreateMap<OrganRoleData, OrganRoleDataQueryOutDto>();
-        CreateMap<OrganRoleData, OrganRoleDataGetOutDto>();
+        CreateMap<OrganRoleDataCreateInDto, OwnerRoleData>();
+        CreateMap<OrganRoleDataUpdateInDto, OwnerRoleData>();
+        CreateMap<OwnerRoleData, OrganRoleDataQueryOutDto>();
+        CreateMap<OwnerRoleData, OrganRoleDataGetOutDto>();
         #endregion
 
         #region OrganDepartment
-        CreateMap<OrganDepartmentCreateInDto, OrganDepartment>();
-        CreateMap<OrganDepartmentUpdateInDto, OrganDepartment>();
-        CreateMap<OrganDepartment, OrganDepartmentQueryOutDto>();
-        CreateMap<OrganDepartment, OrganDepartmentQueryTreeSelectOutDto>();
-        CreateMap<OrganDepartment, OrganDepartmentGetOutDto>();
+        CreateMap<OrganDepartmentCreateInDto, OwnerDepartment>();
+        CreateMap<OrganDepartmentUpdateInDto, OwnerDepartment>();
+        CreateMap<OwnerDepartment, OrganDepartmentQueryOutDto>();
+        CreateMap<OwnerDepartment, OrganDepartmentQueryTreeSelectOutDto>();
+        CreateMap<OwnerDepartment, OrganDepartmentGetOutDto>();
         #endregion
 
         #region OrganEmployee
-        CreateMap<OrganEmployeeCreateInDto, OrganEmployee>();
-        CreateMap<OrganEmployeeUpdateInDto, OrganEmployee>();
-        CreateMap<OrganEmployee, OrganEmployeeQueryOutDto>();
-        CreateMap<OrganEmployee, OrganEmployeeGetOutDto>();
+        CreateMap<OrganEmployeeCreateInDto, OwnerEmployee>();
+        CreateMap<OrganEmployeeUpdateInDto, OwnerEmployee>();
+        CreateMap<OwnerEmployee, OrganEmployeeQueryOutDto>();
+        CreateMap<OwnerEmployee, OrganEmployeeGetOutDto>();
         #endregion
     }
 }

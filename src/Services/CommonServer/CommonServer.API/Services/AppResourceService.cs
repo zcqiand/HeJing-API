@@ -91,7 +91,7 @@ public class AppResourceService : ServiceBase
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<PagingOut<AppResourceQueryOutDto>> Query(AppResourceQueryInDto input)
+    public async Task<PagingOutBase<AppResourceQueryOutDto>> Query(AppResourceQueryInDto input)
     {
         var query = from a in _dbContext.AppResources.AsNoTracking()
                     select a;
@@ -109,7 +109,7 @@ public class AppResourceService : ServiceBase
 
         var itemDtos = Mapper.Map<IList<AppResourceQueryOutDto>>(items);
 
-        return new PagingOut<AppResourceQueryOutDto>(total, itemDtos);
+        return new PagingOutBase<AppResourceQueryOutDto>(total, itemDtos);
     }
 
     /// <summary>

@@ -76,7 +76,7 @@ public class OrganEmployeeController : AppControllerBase
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<ApiResult<PagingOut<OrganEmployeeQueryOutDto>>> Query([FromQuery] OrganEmployeeQueryInDto input)
+    public async Task<ApiResult<PagingOutBase<OrganEmployeeQueryOutDto>>> Query([FromQuery] OrganEmployeeQueryInDto input)
     {
         var result = await _service.Query(input);
         return Success(result);

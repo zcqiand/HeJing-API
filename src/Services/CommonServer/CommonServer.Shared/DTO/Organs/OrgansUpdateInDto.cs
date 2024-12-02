@@ -3,7 +3,7 @@
 /// <summary>
 /// 机构
 /// </summary>
-public class OrgansUpdateInDto : DtoBase
+public class OrgansUpdateInDto : CreateInBase
 {
     /// <summary>
     /// 标识

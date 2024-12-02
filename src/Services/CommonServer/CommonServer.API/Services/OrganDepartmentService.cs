@@ -24,7 +24,7 @@ public class OrganDepartmentService : ServiceBase
     /// <returns></returns>
     public async Task<Guid> Create(OrganDepartmentCreateInDto input)
     {
-        var model = Mapper.Map<OrganDepartment>(input);
+        var model = Mapper.Map<OwnerDepartment>(input);
         
         model.Id = NewId.NextSequentialGuid();
         
@@ -90,7 +90,7 @@ public class OrganDepartmentService : ServiceBase
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<PagingOut<OrganDepartmentQueryOutDto>> Query(OrganDepartmentQueryInDto input)
+    public async Task<PagingOutBase<OrganDepartmentQueryOutDto>> Query(OrganDepartmentQueryInDto input)
     {
         var query = from a in _dbContext.OrganDepartments.AsNoTracking()
                     where a.OrganId == input.OrganId
@@ -108,7 +108,7 @@ public class OrganDepartmentService : ServiceBase
             .Take(input.PageSize)
             .ToListAsync();
 
-        var treeItems = items.ToTree<OrganDepartment>(
+        var treeItems = items.ToTree<OwnerDepartment>(
             (r, c) =>
             {
                 return c.ParentId == null;
@@ -119,13 +119,13 @@ public class OrganDepartmentService : ServiceBase
             },
             (r, dataList) =>
             {
-                r.Children ??= new List<OrganDepartment>();
+                r.Children ??= new List<OwnerDepartment>();
                 r.Children.AddRange(dataList);
             });
 
         var itemDtos = Mapper.Map<IList<OrganDepartmentQueryOutDto>>(treeItems);
 
-        return new PagingOut<OrganDepartmentQueryOutDto>(total, itemDtos);
+        return new PagingOutBase<OrganDepartmentQueryOutDto>(total, itemDtos);
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ public class OrganDepartmentService : ServiceBase
             .OrderByDescending(x => x.LastModifyTime)
             .ToListAsync();
 
-        var treeItems = items.ToTree<OrganDepartment>(
+        var treeItems = items.ToTree<OwnerDepartment>(
             (r, c) =>
             {
                 return c.ParentId == null;
@@ -157,7 +157,7 @@ public class OrganDepartmentService : ServiceBase
             },
             (r, dataList) =>
             {
-                r.Children ??= new List<OrganDepartment>();
+                r.Children ??= new List<OwnerDepartment>();
                 r.Children.AddRange(dataList);
             });
 

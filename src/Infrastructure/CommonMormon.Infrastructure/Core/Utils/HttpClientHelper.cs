@@ -138,7 +138,7 @@ public class HttpClientHelper
         return responseContent;
     }
 
-    private void AddHeaders(HttpRequestMessage request, Dictionary<string, string> headers)
+    private void AddHeaders(HttpRequestMessage request, Dictionary<string, string>? headers)
     {
         if (headers != null)
         {

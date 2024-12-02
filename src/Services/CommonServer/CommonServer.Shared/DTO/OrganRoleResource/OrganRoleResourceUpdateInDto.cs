@@ -3,7 +3,7 @@
 /// <summary>
 /// 角色资源
 /// </summary>
-public class OrganRoleResourceUpdateInDto : DtoBase
+public class OrganRoleResourceUpdateInDto : CreateInBase
 {
     /// <summary>
     /// 标识

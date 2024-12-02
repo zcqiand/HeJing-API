@@ -24,7 +24,7 @@ public class OrganRoleFunctionService : ServiceBase
     /// <returns></returns>
     public async Task<Guid> Create(OrganRoleFunctionCreateInDto input)
     {
-        var model = Mapper.Map<OrganRoleFunction>(input);
+        var model = Mapper.Map<OwnerRoleFunction>(input);
         
         model.Id = NewId.NextSequentialGuid();
         
@@ -90,7 +90,7 @@ public class OrganRoleFunctionService : ServiceBase
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<PagingOut<OrganRoleFunctionQueryOutDto>> Query(OrganRoleFunctionQueryInDto input)
+    public async Task<PagingOutBase<OrganRoleFunctionQueryOutDto>> Query(OrganRoleFunctionQueryInDto input)
     {
         var query = from a in _dbContext.OrganRoleFunctions.AsNoTracking()
                     select a;
@@ -108,7 +108,7 @@ public class OrganRoleFunctionService : ServiceBase
 
         var itemDtos = Mapper.Map<IList<OrganRoleFunctionQueryOutDto>>(items);
 
-        return new PagingOut<OrganRoleFunctionQueryOutDto>(total, itemDtos);
+        return new PagingOutBase<OrganRoleFunctionQueryOutDto>(total, itemDtos);
     }
 
     /// <summary>

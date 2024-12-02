@@ -3,7 +3,7 @@
 /// <summary>
 /// 操作日志
 /// </summary>
-public class AppOperationLogUpdateInDto : DtoBase
+public class AppOperationLogUpdateInDto : CreateInBase
 {
     /// <summary>
     /// 标识

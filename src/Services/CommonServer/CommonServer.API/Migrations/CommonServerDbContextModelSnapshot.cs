@@ -3,8 +3,8 @@ using System;
 using CommonServer.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -17,325 +17,359 @@ namespace CommonServer.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CommonServer.Domain.Model.AppData", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseApp", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasComment("编号");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<bool>("EnabledFlag")
+                        .HasColumnType("boolean")
+                        .HasComment("是否启用");
+
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("名称");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)")
+                        .HasColumnType("character varying(2000)")
                         .HasComment("备注");
 
                     b.Property<int>("SortNo")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("排序号");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppData", t =>
+                    b.ToTable("BaseApp", t =>
+                        {
+                            t.HasComment("应用");
+                        });
+                });
+
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseAppData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasComment("标识");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasComment("编号");
+
+                    b.Property<DateTimeOffset>("CreateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasComment("创建时间");
+
+                    b.Property<DateTimeOffset>("LastModifyTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasComment("最后更新时间");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasComment("名称");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasComment("备注");
+
+                    b.Property<int>("SortNo")
+                        .HasColumnType("integer")
+                        .HasComment("排序号");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BaseAppData", t =>
                         {
                             t.HasComment("数据");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.AppFunction", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseAppFunction", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasComment("编号");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("名称");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)")
+                        .HasColumnType("character varying(2000)")
                         .HasComment("备注");
 
                     b.Property<int>("SortNo")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("排序号");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppFunction", t =>
+                    b.ToTable("BaseAppFunction", t =>
                         {
                             t.HasComment("功能");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.AppOperationLog", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseAppResource", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("标识");
-
-                    b.Property<string>("Action")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("分类");
-
-                    b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
-                        .HasComment("创建时间");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Event")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("事件");
-
-                    b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
-                        .HasComment("最后更新时间");
-
-                    b.Property<string>("Source")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("来源");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("用户标识");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("用户名称");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppOperationLog", t =>
-                        {
-                            t.HasComment("操作日志");
-                        });
-                });
-
-            modelBuilder.Entity("CommonServer.Domain.Model.AppResource", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<string>("Component")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("组件");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<string>("Icon")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("图标");
 
                     b.Property<bool?>("IsAffix")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasComment("是否固定");
 
                     b.Property<bool?>("IsFull")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasComment("是否全屏");
 
                     b.Property<bool?>("IsHide")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasComment("是否隐藏");
 
                     b.Property<bool?>("IsKeepAlive")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasComment("是否缓存");
 
                     b.Property<bool?>("IsLink")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasComment("是否外链");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("名称");
 
                     b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("父级标识");
 
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("路径");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)")
+                        .HasColumnType("character varying(2000)")
                         .HasComment("备注");
 
                     b.Property<int>("ResourceType")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("资源类型");
 
                     b.Property<int>("SortNo")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("排序号");
 
                     b.Property<string>("Title")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("标题");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("AppResource", t =>
+                    b.ToTable("BaseAppResource", t =>
                         {
                             t.HasComment("资源");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.Apps", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrgan", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasComment("联系地址");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasComment("编号");
 
+                    b.Property<string>("ContactPerson")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasComment("联系人");
+
+                    b.Property<string>("ContactPersonTel")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasComment("联系人电话");
+
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasComment("电子邮箱");
+
                     b.Property<bool>("EnabledFlag")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasComment("是否启用");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("名称");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)")
+                        .HasColumnType("character varying(2000)")
                         .HasComment("备注");
 
+                    b.Property<string>("ShortName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasComment("简称");
+
                     b.Property<int>("SortNo")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("排序号");
+
+                    b.Property<string>("Tel")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasComment("联系电话");
+
+                    b.Property<string>("ZipCode")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasComment("邮政编码");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Apps", t =>
+                    b.ToTable("BaseOrgan", t =>
                         {
-                            t.HasComment("应用");
+                            t.HasComment("机构");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganDepartment", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganDepartment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasComment("编号");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<bool>("EnabledFlag")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasComment("是否启用");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("名称");
 
                     b.Property<Guid>("OrganId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("机构标识");
 
                     b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("父级标识");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)")
+                        .HasColumnType("character varying(2000)")
                         .HasComment("备注");
 
                     b.Property<int>("SortNo")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("排序号");
 
                     b.HasKey("Id");
@@ -344,111 +378,111 @@ namespace CommonServer.API.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("OrganDepartment", t =>
+                    b.ToTable("BaseOrganDepartment", t =>
                         {
                             t.HasComment("部门");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganEmployee", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganEmployee", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasComment("编号");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("部门标识");
 
                     b.Property<string>("Email")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("电子邮箱");
 
                     b.Property<bool>("EnabledFlag")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasComment("是否启用");
 
                     b.Property<int>("Gender")
                         .HasMaxLength(200)
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("性别");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("姓名");
 
                     b.Property<string>("NickName")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("昵称");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)")
+                        .HasColumnType("character varying(2000)")
                         .HasComment("备注");
 
                     b.Property<int>("SortNo")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("排序号");
 
                     b.Property<string>("Tel")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("联系电话");
 
                     b.Property<string>("UserId")
                         .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
+                        .HasColumnType("character varying(450)")
                         .HasComment("用户标识");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("OrganEmployee", t =>
+                    b.ToTable("BaseOrganEmployee", t =>
                         {
                             t.HasComment("员工");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganEmployeeRole", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganEmployeeRole", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("用户标识");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<Guid>("RoleId")
                         .HasMaxLength(50)
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("角色标识");
 
                     b.HasKey("Id");
@@ -457,77 +491,77 @@ namespace CommonServer.API.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("OrganEmployeeRole", t =>
+                    b.ToTable("BaseOrganEmployeeRole", t =>
                         {
                             t.HasComment("员工角色");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganRole", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganRole", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasComment("编号");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasColumnType("character varying(200)")
                         .HasComment("名称");
 
                     b.Property<Guid>("OrganId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("机构标识");
 
                     b.Property<int>("SortNo")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasComment("排序号");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrganId");
 
-                    b.ToTable("OrganRole", t =>
+                    b.ToTable("BaseOrganRole", t =>
                         {
                             t.HasComment("角色");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganRoleData", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganRoleData", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<Guid?>("DataId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("数据标识");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<Guid>("RoleId")
                         .HasMaxLength(50)
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("角色标识");
 
                     b.HasKey("Id");
@@ -536,37 +570,37 @@ namespace CommonServer.API.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("OrganRoleData", t =>
+                    b.ToTable("BaseOrganRoleData", t =>
                         {
                             t.HasComment("角色数据");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganRoleFunction", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganRoleFunction", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<Guid>("FunctionId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("功能标识");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<Guid?>("ResourceId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("资源标识");
 
                     b.Property<Guid>("RoleId")
                         .HasMaxLength(50)
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("角色标识");
 
                     b.HasKey("Id");
@@ -577,33 +611,33 @@ namespace CommonServer.API.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("OrganRoleFunction", t =>
+                    b.ToTable("BaseOrganRoleFunction", t =>
                         {
                             t.HasComment("角色功能");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganRoleResource", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganRoleResource", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
                     b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("资源标识");
 
                     b.Property<Guid>("RoleId")
                         .HasMaxLength(50)
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("角色标识");
 
                     b.HasKey("Id");
@@ -612,112 +646,78 @@ namespace CommonServer.API.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("OrganRoleResource", t =>
+                    b.ToTable("BaseOrganRoleResource", t =>
                         {
                             t.HasComment("角色资源");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.Organs", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.RunOperationLog", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("uuid")
                         .HasComment("标识");
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasComment("联系地址");
+                    b.Property<string>("Action")
+                        .HasColumnType("text");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("编号");
-
-                    b.Property<string>("ContactPerson")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasComment("联系人");
-
-                    b.Property<string>("ContactPersonTel")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasComment("联系人电话");
+                    b.Property<string>("Category")
+                        .HasColumnType("text")
+                        .HasComment("分类");
 
                     b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasComment("电子邮箱");
+                    b.Property<string>("Data")
+                        .HasColumnType("text");
 
-                    b.Property<bool>("EnabledFlag")
-                        .HasColumnType("bit")
-                        .HasComment("是否启用");
+                    b.Property<string>("Event")
+                        .HasColumnType("text")
+                        .HasComment("事件");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasComment("名称");
+                    b.Property<string>("Source")
+                        .HasColumnType("text")
+                        .HasComment("来源");
 
-                    b.Property<string>("Remark")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)")
-                        .HasComment("备注");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text")
+                        .HasComment("用户标识");
 
-                    b.Property<string>("ShortName")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasComment("简称");
-
-                    b.Property<int>("SortNo")
-                        .HasColumnType("int")
-                        .HasComment("排序号");
-
-                    b.Property<string>("Tel")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasComment("联系电话");
-
-                    b.Property<string>("ZipCode")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasComment("邮政编码");
+                    b.Property<string>("UserName")
+                        .HasColumnType("text")
+                        .HasComment("用户名称");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organs", t =>
+                    b.ToTable("RunOperationLog", t =>
                         {
-                            t.HasComment("机构");
+                            t.HasComment("操作日志");
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.AppResource", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseAppResource", b =>
                 {
-                    b.HasOne("CommonServer.Domain.Model.AppResource", "Parent")
+                    b.HasOne("CommonServer.Domain.Model.BaseAppResource", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganDepartment", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganDepartment", b =>
                 {
-                    b.HasOne("CommonServer.Domain.Model.Organs", "Organ")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrgan", "Organ")
                         .WithMany("Departments")
                         .HasForeignKey("OrganId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CommonServer.Domain.Model.OrganDepartment", "Parent")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrganDepartment", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
@@ -726,9 +726,9 @@ namespace CommonServer.API.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganEmployee", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganEmployee", b =>
                 {
-                    b.HasOne("CommonServer.Domain.Model.OrganDepartment", "Department")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrganDepartment", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -737,15 +737,15 @@ namespace CommonServer.API.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganEmployeeRole", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganEmployeeRole", b =>
                 {
-                    b.HasOne("CommonServer.Domain.Model.OrganEmployee", "Employee")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrganEmployee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CommonServer.Domain.Model.OrganRole", "Role")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrganRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -756,9 +756,9 @@ namespace CommonServer.API.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganRole", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganRole", b =>
                 {
-                    b.HasOne("CommonServer.Domain.Model.Organs", "Organ")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrgan", "Organ")
                         .WithMany("Roles")
                         .HasForeignKey("OrganId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -767,13 +767,13 @@ namespace CommonServer.API.Migrations
                     b.Navigation("Organ");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganRoleData", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganRoleData", b =>
                 {
-                    b.HasOne("CommonServer.Domain.Model.AppData", "Data")
+                    b.HasOne("CommonServer.Domain.Model.BaseAppData", "Data")
                         .WithMany()
                         .HasForeignKey("DataId");
 
-                    b.HasOne("CommonServer.Domain.Model.OrganRole", "Role")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrganRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -784,19 +784,19 @@ namespace CommonServer.API.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganRoleFunction", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganRoleFunction", b =>
                 {
-                    b.HasOne("CommonServer.Domain.Model.AppFunction", "Function")
+                    b.HasOne("CommonServer.Domain.Model.BaseAppFunction", "Function")
                         .WithMany()
                         .HasForeignKey("FunctionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CommonServer.Domain.Model.AppResource", "Resource")
+                    b.HasOne("CommonServer.Domain.Model.BaseAppResource", "Resource")
                         .WithMany()
                         .HasForeignKey("ResourceId");
 
-                    b.HasOne("CommonServer.Domain.Model.OrganRole", "Role")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrganRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -809,15 +809,15 @@ namespace CommonServer.API.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganRoleResource", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganRoleResource", b =>
                 {
-                    b.HasOne("CommonServer.Domain.Model.AppResource", "Resource")
+                    b.HasOne("CommonServer.Domain.Model.BaseAppResource", "Resource")
                         .WithMany()
                         .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CommonServer.Domain.Model.OrganRole", "Role")
+                    b.HasOne("CommonServer.Domain.Model.BaseOrganRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -828,21 +828,21 @@ namespace CommonServer.API.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.AppResource", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseAppResource", b =>
                 {
                     b.Navigation("Children");
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OrganDepartment", b =>
-                {
-                    b.Navigation("Children");
-                });
-
-            modelBuilder.Entity("CommonServer.Domain.Model.Organs", b =>
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrgan", b =>
                 {
                     b.Navigation("Departments");
 
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("CommonServer.Domain.Model.BaseOrganDepartment", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }
