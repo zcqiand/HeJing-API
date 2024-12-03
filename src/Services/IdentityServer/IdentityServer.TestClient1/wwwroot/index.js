@@ -1,7 +1,7 @@
 ﻿oidc.Log.setLogger(console);
 
 const userManager = new oidc.UserManager({
-    authority: 'https://localhost:44319',
+    authority: 'https://localhost:55208',
     scope: 'openid offline_access api1',
     client_id: 'spa',
     redirect_uri: window.location.origin + '/signin-callback.html',
