@@ -9,7 +9,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 员工
 /// </summary>
-[Table("BaseOrganEmployee")]
+[Table("OwnerEmployee")]
 [Comment("员工")]
 public partial class OwnerEmployee : Entity
 {

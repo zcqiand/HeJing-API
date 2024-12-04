@@ -1,4 +1,5 @@
-﻿using IdentityServer.WebApp;
+﻿using CommonServer.Infrastructure;
+using IdentityServer.WebApp;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -31,12 +32,12 @@ services.AddQuartz(options =>
 
 services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
-var connectionString = configuration.GetConnectionString("IdentityServerDbConnection") ?? throw new InvalidOperationException("Connection string 'IdentityServerDbConnection' not found.");
+var connectionString = configuration.GetConnectionString("CommonServerDbConnection") ?? throw new InvalidOperationException("Connection string 'CommonServerDbConnection' not found.");
 
-services.AddDbContext<DbContext>(options =>
+services.AddDbContext<CommonServerDbContext>(options =>
 {
     options.EnableSensitiveDataLogging(true);
-    options.UseNpgsql(connectionString, b => b.MigrationsAssembly("IdentityServer.API"));
+    options.UseNpgsql(connectionString);
 
     options.UseOpenIddict();
 });
@@ -45,7 +46,7 @@ services.AddOpenIddict()
     .AddCore(options =>
     {
         options.UseEntityFrameworkCore()
-               .UseDbContext<DbContext>();
+               .UseDbContext<CommonServerDbContext>();
     })
     .AddServer(options =>
     {

@@ -8,7 +8,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 角色资源
 /// </summary>
-[Table("BaseOrganRoleResource")]
+[Table("OwnerRoleResource")]
 [Comment("角色资源")]
 public partial class OwnerRoleResource : Entity
 {

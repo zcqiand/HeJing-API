@@ -8,7 +8,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 员工角色
 /// </summary>
-[Table("BaseOrganEmployeeRole")]
+[Table("OwnerEmployeeRole")]
 [Comment("员工角色")]
 public partial class OwnerEmployeeRole : Entity
 {

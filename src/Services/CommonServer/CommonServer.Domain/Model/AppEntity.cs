@@ -8,7 +8,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 应用
 /// </summary>
-[Table("BaseApp")]
+[Table("AppEntity")]
 [Comment("应用")]
 public partial class AppEntity : Entity
 {

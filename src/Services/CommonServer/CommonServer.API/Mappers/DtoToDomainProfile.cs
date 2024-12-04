@@ -47,10 +47,10 @@ public class DtoToDomainProfile : Profile
         #endregion
 
         #region AppData
-        CreateMap<AppsDataCreateInDto, BaseAppData>();
-        CreateMap<AppDataUpdateInDto, BaseAppData>();
-        CreateMap<BaseAppData, AppDataQueryOutDto>();
-        CreateMap<BaseAppData, AppDataGetOutDto>();
+        CreateMap<AppsDataCreateInDto, AppData>();
+        CreateMap<AppDataUpdateInDto, AppData>();
+        CreateMap<AppData, AppDataQueryOutDto>();
+        CreateMap<AppData, AppDataGetOutDto>();
         #endregion
 
         #region AppOperationLog

@@ -8,7 +8,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 角色
 /// </summary>
-[Table("BaseOrganRole")]
+[Table("OwnerRole")]
 [Comment("角色")]
 public partial class OwnerRole : Entity
 {
@@ -16,8 +16,8 @@ public partial class OwnerRole : Entity
     /// 机构标识
     /// </summary>
     [Comment("机构标识")]
-    public Guid OrganId { get; set; }
-    public OwnerEntity? Organ { get; set; }
+    public Guid OwnerId { get; set; }
+    public OwnerEntity? Owner { get; set; }
     /// <summary>
     /// 编号
     /// </summary>

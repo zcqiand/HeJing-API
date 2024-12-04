@@ -8,7 +8,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 部门
 /// </summary>
-[Table("BaseOrganDepartment")]
+[Table("OwnerDepartment")]
 [Comment("部门")]
 public partial class OwnerDepartment : TreeEntity<OwnerDepartment>
 {
@@ -16,8 +16,8 @@ public partial class OwnerDepartment : TreeEntity<OwnerDepartment>
     /// 机构标识
     /// </summary>
     [Comment("机构标识")]
-    public Guid OrganId { get; set; }
-    public OwnerEntity? Organ { get; set; }
+    public Guid OwnerId { get; set; }
+    public OwnerEntity? Owner { get; set; }
     /// <summary>
     /// 编号
     /// </summary>

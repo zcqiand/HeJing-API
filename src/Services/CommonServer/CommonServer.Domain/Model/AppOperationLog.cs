@@ -8,7 +8,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 操作日志
 /// </summary>
-[Table("RunOperationLog")]
+[Table("AppOperationLog")]
 [Comment("操作日志")]
 public partial class AppOperationLog : Entity
 {

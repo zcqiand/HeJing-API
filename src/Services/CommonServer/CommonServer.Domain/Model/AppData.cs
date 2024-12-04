@@ -8,9 +8,9 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 数据
 /// </summary>
-[Table("BaseAppData")]
+[Table("AppData")]
 [Comment("数据")]
-public partial class BaseAppData : Entity
+public partial class AppData : Entity
 {
     /// <summary>
     /// 编号

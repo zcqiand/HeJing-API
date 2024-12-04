@@ -24,7 +24,7 @@ public class AppDataService : ServiceBase
     /// <returns></returns>
     public async Task<Guid> Create(AppsDataCreateInDto input)
     {
-        var model = Mapper.Map<BaseAppData>(input);
+        var model = Mapper.Map<AppData>(input);
         
         model.Id = NewId.NextSequentialGuid();
         

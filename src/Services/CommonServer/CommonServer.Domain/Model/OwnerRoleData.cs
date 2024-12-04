@@ -8,7 +8,7 @@ namespace CommonServer.Domain.Model;
 /// <summary>
 /// 角色数据
 /// </summary>
-[Table("BaseOrganRoleData")]
+[Table("OwnerRoleData")]
 [Comment("角色数据")]
 public partial class OwnerRoleData : Entity
 {
@@ -24,5 +24,5 @@ public partial class OwnerRoleData : Entity
     /// </summary>
     [Comment("数据标识")]
     public Guid? DataId { get; set; }
-    public BaseAppData? Data { get; set; }
+    public AppData? Data { get; set; }
 }

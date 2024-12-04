@@ -13,27 +13,28 @@ public partial class CommonServerDbContext : DbContext
     }
 
     #region 实体
-    public virtual DbSet<AppEntity> Appses { get; set; } = null!;
+    public virtual DbSet<AppEntity> AppEntities { get; set; } = null!;
+    public virtual DbSet<AppData> AppDatas { get; set; } = null!;
     public virtual DbSet<AppResource> AppResources { get; set; } = null!;
     public virtual DbSet<AppFunction> AppFunctions { get; set; } = null!;
-    public virtual DbSet<BaseAppData> AppDatas { get; set; } = null!;
     public virtual DbSet<AppOperationLog> AppOperationLogs { get; set; } = null!;
-    public virtual DbSet<OwnerEntity> Organses { get; set; } = null!;
-    public virtual DbSet<OwnerRole> OrganRoles { get; set; } = null!;
-    public virtual DbSet<OwnerRoleResource> OrganRoleResources { get; set; } = null!;
-    public virtual DbSet<OwnerRoleFunction> OrganRoleFunctions { get; set; } = null!;
-    public virtual DbSet<OwnerRoleData> OrganRoleDatas { get; set; } = null!;
-    public virtual DbSet<OwnerDepartment> OrganDepartments { get; set; } = null!;
-    public virtual DbSet<OwnerEmployee> OrganEmployees { get; set; } = null!;
-    public virtual DbSet<OwnerEmployeeRole> OrganEmployeeRoles { get; set; } = null!;
+    public virtual DbSet<OwnerEntity> OwnerEntities { get; set; } = null!;
+    public virtual DbSet<OwnerRole> OwnerRoles { get; set; } = null!;
+    public virtual DbSet<OwnerRoleResource> OwnerRoleResources { get; set; } = null!;
+    public virtual DbSet<OwnerRoleFunction> OwnerRoleFunctions { get; set; } = null!;
+    public virtual DbSet<OwnerRoleData> OwnerRoleDatas { get; set; } = null!;
+    public virtual DbSet<OwnerDepartment> OwnerDepartments { get; set; } = null!;
+    public virtual DbSet<OwnerEmployee> OwnerEmployees { get; set; } = null!;
+    public virtual DbSet<OwnerEmployeeRole> OwnerEmployeeRoles { get; set; } = null!;
+    public virtual DbSet<OwnerUser> OwnerUsers { get; set; } = null!;
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<OwnerRole>()
-            .HasOne(e => e.Organ)
+            .HasOne(e => e.Owner)
             .WithMany(e => e.Roles)
-            .HasForeignKey(e => e.OrganId)
+            .HasForeignKey(e => e.OwnerId)
             .OnDelete(DeleteBehavior.ClientCascade);
     }
 }
