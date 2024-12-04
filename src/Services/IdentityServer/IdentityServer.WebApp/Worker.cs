@@ -1,3 +1,4 @@
+using CommonServer.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
@@ -15,7 +16,7 @@ public class Worker : IHostedService
     {
         await using var scope = _serviceProvider.CreateAsyncScope();
 
-        var context = scope.ServiceProvider.GetRequiredService<DbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<CommonServerDbContext>();
         await context.Database.EnsureCreatedAsync();
 
         await CreateApplicationsAsync();

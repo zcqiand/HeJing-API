@@ -5,8 +5,8 @@ namespace IdentityServer.WebApp.Models;
 public class LoginViewModel
 {
     [Display(Name = "用户名称")]
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 
     [Display(Name = "用户密码")]
-    public string Password { get; set; }
+    public string? Password { get; set; }
 }

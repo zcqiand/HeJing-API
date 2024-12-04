@@ -10,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var services = builder.Services;
 
-services.AddControllersWithViews();
-services.AddRazorPages();
 
 services.AddCors(options =>
 {
@@ -41,6 +39,9 @@ services.AddDbContext<CommonServerDbContext>(options =>
 
     options.UseOpenIddict();
 });
+
+services.AddControllersWithViews();
+services.AddRazorPages();
 
 services.AddOpenIddict()
     .AddCore(options =>
