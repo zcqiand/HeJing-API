@@ -114,7 +114,11 @@ services.AddOpenIddict()
 services.AddHostedService<Worker>();
 
 services.AddCors();
-services.AddAuthorization();
+services.AddAuthorization().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+});
 services.AddRazorPages();
 
 var app = builder.Build();
