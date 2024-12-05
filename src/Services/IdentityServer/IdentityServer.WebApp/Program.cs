@@ -30,7 +30,6 @@ services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfi
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<IdentityServerDbContext>();
 
-
 // 注册 Quartz.NET 服务并将其配置为使用依赖注入和内存存储：
 services.AddQuartz(options =>
 {
@@ -114,11 +113,16 @@ services.AddOpenIddict()
 services.AddHostedService<Worker>();
 
 services.AddCors();
-services.AddAuthorization().AddGoogle(googleOptions =>
+
+services.AddAuthorization();
+services.AddAuthentication().AddGoogle(googleOptions =>
 {
-    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+    IConfigurationSection googleAuthNSection =
+       configuration.GetSection("Authentication:Google");
+    googleOptions.ClientId = googleAuthNSection["ClientId"];
+    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
 });
+
 services.AddRazorPages();
 
 var app = builder.Build();
