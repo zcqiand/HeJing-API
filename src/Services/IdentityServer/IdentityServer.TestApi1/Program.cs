@@ -22,7 +22,6 @@ builder.Services.AddOpenIddict()
     .AddValidation(options =>
     {
         options.SetIssuer("https://localhost:55208/");
-        options.AddAudiences("resource_server_1");
 
         options.AddEncryptionKey(new SymmetricSecurityKey(
             Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
