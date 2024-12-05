@@ -10,12 +10,7 @@ const userManager = new oidc.UserManager({
 });
 
 function login() {
-    return userManager.signinRedirect({
-        extraQueryParams: {
-            identity_provider: 'Local',
-            hardcoded_identity_id: '1',
-        },
-    });
+    return userManager.signinRedirect();
 }
 
 function refreshToken() {

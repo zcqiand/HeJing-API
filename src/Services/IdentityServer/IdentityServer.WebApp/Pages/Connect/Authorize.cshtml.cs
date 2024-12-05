@@ -34,7 +34,7 @@ public class AuthorizeModel : PageModel
         IOpenIddictAuthorizationManager authorizationManager,
         IOpenIddictScopeManager scopeManager,
         SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, 
+        UserManager<IdentityUser> userManager,
         ILogger<AuthorizeModel> logger)
     {
         _applicationManager = applicationManager;
@@ -99,88 +99,27 @@ public class AuthorizeModel : PageModel
         var user = await _userManager.GetUserAsync(result.Principal) ??
             throw new InvalidOperationException("The user details cannot be retrieved.");
 
-        // Retrieve the application details from the database.
-        var application = await _applicationManager.FindByClientIdAsync(request.ClientId) ??
-            throw new InvalidOperationException("Details concerning the calling client application cannot be found.");
+        // Create the claims-based identity that will be used by OpenIddict to generate tokens.
+        var identity = new ClaimsIdentity(
+            authenticationType: TokenValidationParameters.DefaultAuthenticationType,
+            nameType: Claims.Name,
+            roleType: Claims.Role);
 
-        // Retrieve the permanent authorizations associated with the user and the calling client application.
-        var authorizations = await _authorizationManager.FindAsync(
-            subject: await _userManager.GetUserIdAsync(user),
-            client: await _applicationManager.GetIdAsync(application),
-            status: Statuses.Valid,
-            type: AuthorizationTypes.Permanent,
-            scopes: request.GetScopes()).ToListAsync();
+        // Add the claims that will be persisted in the tokens.
+        identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
+                .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
+                .SetClaim(Claims.Name, await _userManager.GetUserNameAsync(user))
+                .SetClaim(Claims.PreferredUsername, await _userManager.GetUserNameAsync(user))
+                .SetClaims(Claims.Role, [.. (await _userManager.GetRolesAsync(user))]);
 
-        switch (await _applicationManager.GetConsentTypeAsync(application))
-        {
-            // If the consent is external (e.g when authorizations are granted by a sysadmin),
-            // immediately return an error if no authorization can be found in the database.
-            case ConsentTypes.External when authorizations.Count is 0:
-                return Forbid(
-                    authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
-                    properties: new AuthenticationProperties(new Dictionary<string, string>
-                    {
-                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.ConsentRequired,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
-                            "The logged in user is not allowed to access this client application."
-                    }));
+        // Note: in this sample, the granted scopes match the requested scope
+        // but you may want to allow the user to uncheck specific scopes.
+        // For that, simply restrict the list of scopes before calling SetScopes.
+        identity.SetScopes(request.GetScopes());
+        identity.SetResources(await _scopeManager.ListResourcesAsync(identity.GetScopes()).ToListAsync());
+        identity.SetDestinations(GetDestinations);
 
-            // If the consent is implicit or if an authorization was found,
-            // return an authorization response without displaying the consent form.
-            case ConsentTypes.Implicit:
-            case ConsentTypes.External when authorizations.Count is not 0:
-            case ConsentTypes.Explicit when authorizations.Count is not 0 && !request.HasPrompt(Prompts.Consent):
-                // Create the claims-based identity that will be used by OpenIddict to generate tokens.
-                var identity = new ClaimsIdentity(
-                    authenticationType: TokenValidationParameters.DefaultAuthenticationType,
-                    nameType: Claims.Name,
-                    roleType: Claims.Role);
-
-                // Add the claims that will be persisted in the tokens.
-                identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
-                        .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
-                        .SetClaim(Claims.Name, await _userManager.GetUserNameAsync(user))
-                        .SetClaim(Claims.PreferredUsername, await _userManager.GetUserNameAsync(user))
-                        .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
-
-                // Note: in this sample, the granted scopes match the requested scope
-                // but you may want to allow the user to uncheck specific scopes.
-                // For that, simply restrict the list of scopes before calling SetScopes.
-                identity.SetScopes(request.GetScopes());
-                identity.SetResources(await _scopeManager.ListResourcesAsync(identity.GetScopes()).ToListAsync());
-
-                // Automatically create a permanent authorization to avoid requiring explicit consent
-                // for future authorization or token requests containing the same scopes.
-                var authorization = authorizations.LastOrDefault();
-                authorization ??= await _authorizationManager.CreateAsync(
-                    identity: identity,
-                    subject: await _userManager.GetUserIdAsync(user),
-                    client: await _applicationManager.GetIdAsync(application),
-                    type: AuthorizationTypes.Permanent,
-                    scopes: identity.GetScopes());
-
-                identity.SetAuthorizationId(await _authorizationManager.GetIdAsync(authorization));
-                identity.SetDestinations(GetDestinations);
-
-                return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-
-            // At this point, no authorization was found in the database and an error must be returned
-            // if the client application specified prompt=none in the authorization request.
-            case ConsentTypes.Explicit when request.HasPrompt(Prompts.None):
-            case ConsentTypes.Systematic when request.HasPrompt(Prompts.None):
-                return Forbid(
-                    authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
-                    properties: new AuthenticationProperties(new Dictionary<string, string>
-                    {
-                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.ConsentRequired,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
-                            "Interactive user consent is required."
-                    }));
-
-            // In every other case, render the consent form.
-            default:
-                return Page();
-        }
+        return SignIn(new ClaimsPrincipal(identity), properties: null, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
 
     private static IEnumerable<string> GetDestinations(Claim claim)

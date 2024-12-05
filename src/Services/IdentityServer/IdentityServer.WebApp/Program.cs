@@ -73,10 +73,17 @@ services.AddOpenIddict()
          // Expose all the supported scopes in the discovery document.
          options.RegisterScopes(configuration.GetSection("OpenIddict:Scopes").Get<string[]>()!);
 
-         // Note: an ephemeral signing key is deliberately used to make the "OP-Rotation-OP-Sig"
-         // test easier to run as restarting the application is enough to rotate the keys.
-         options.AddEphemeralEncryptionKey()
-                .AddEphemeralSigningKey();
+         // Register the encryption credentials. This sample uses a symmetric
+         // encryption key that is shared between the server and the Api2 sample
+         // (that performs local token validation instead of using introspection).
+         //
+         // Note: in a real world application, this encryption key should be
+         // stored in a safe place (e.g in Azure KeyVault, stored as a secret).
+         options.AddEncryptionKey(new SymmetricSecurityKey(
+             Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
+
+         // Register the signing credentials.
+         options.AddDevelopmentSigningCertificate();
 
          // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
          //
@@ -88,9 +95,6 @@ services.AddOpenIddict()
                 .EnableLogoutEndpointPassthrough()
                 .DisableTransportSecurityRequirement();
 
-         // Register the event handler responsible for populating userinfo responses.
-         options.AddEventHandler<HandleUserinfoRequestContext>(options =>
-             options.UseSingletonHandler<Handlers.PopulateUserinfo>());
      })
     .AddValidation(options =>
     {
@@ -110,6 +114,7 @@ services.AddOpenIddict()
 services.AddHostedService<Worker>();
 
 services.AddCors();
+services.AddAuthorization();
 services.AddRazorPages();
 
 var app = builder.Build();
