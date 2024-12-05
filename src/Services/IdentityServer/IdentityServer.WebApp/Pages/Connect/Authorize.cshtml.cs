@@ -22,25 +22,16 @@ namespace IdentityServer.API.Pages.Connect;
 
 public class AuthorizeModel : PageModel
 {
-    private readonly IOpenIddictApplicationManager _applicationManager;
-    private readonly IOpenIddictAuthorizationManager _authorizationManager;
     private readonly IOpenIddictScopeManager _scopeManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly ILogger<AuthorizeModel> _logger;
 
     public AuthorizeModel(
-        IOpenIddictApplicationManager applicationManager,
-        IOpenIddictAuthorizationManager authorizationManager,
         IOpenIddictScopeManager scopeManager,
-        SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
         ILogger<AuthorizeModel> logger)
     {
-        _applicationManager = applicationManager;
-        _authorizationManager = authorizationManager;
         _scopeManager = scopeManager;
-        _signInManager = signInManager;
         _userManager = userManager;
         _logger = logger;
     }
