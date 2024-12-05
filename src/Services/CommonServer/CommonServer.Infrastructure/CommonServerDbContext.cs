@@ -26,7 +26,6 @@ public partial class CommonServerDbContext : DbContext
     public virtual DbSet<OwnerDepartment> OwnerDepartments { get; set; } = null!;
     public virtual DbSet<OwnerEmployee> OwnerEmployees { get; set; } = null!;
     public virtual DbSet<OwnerEmployeeRole> OwnerEmployeeRoles { get; set; } = null!;
-    public virtual DbSet<OwnerUser> OwnerUsers { get; set; } = null!;
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
