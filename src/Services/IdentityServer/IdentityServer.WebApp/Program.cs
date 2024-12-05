@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var services = builder.Services;
 
+services.AddControllersWithViews();
+services.AddRazorPages();
 
 services.AddCors(options =>
 {
@@ -40,9 +42,6 @@ services.AddDbContext<CommonServerDbContext>(options =>
     options.UseOpenIddict();
 });
 
-services.AddControllersWithViews();
-services.AddRazorPages();
-
 services.AddOpenIddict()
     .AddCore(options =>
     {
@@ -51,9 +50,9 @@ services.AddOpenIddict()
     })
     .AddServer(options =>
     {
-        options.SetAuthorizationEndpointUris("authorize")
-                .SetIntrospectionEndpointUris("introspect")
-                .SetTokenEndpointUris("token");
+        options.SetAuthorizationEndpointUris("connect/authorize")
+                .SetIntrospectionEndpointUris("connect/introspect")
+                .SetTokenEndpointUris("connect/token");
 
         options.AllowAuthorizationCodeFlow()
             .AllowRefreshTokenFlow();

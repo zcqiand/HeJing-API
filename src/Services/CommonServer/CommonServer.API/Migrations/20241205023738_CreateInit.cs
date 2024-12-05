@@ -6,13 +6,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CommonServer.API.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstInit : Migration
+    public partial class CreateInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BaseApp",
+                name: "AppData",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
+                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, comment: "编号"),
+                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false, comment: "名称"),
+                    Remark = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true, comment: "备注"),
+                    SortNo = table.Column<int>(type: "integer", nullable: false, comment: "排序号"),
+                    CreateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "创建时间"),
+                    LastModifyTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "最后更新时间")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppData", x => x.Id);
+                },
+                comment: "数据");
+
+            migrationBuilder.CreateTable(
+                name: "AppEntity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -26,12 +44,12 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseApp", x => x.Id);
+                    table.PrimaryKey("PK_AppEntity", x => x.Id);
                 },
                 comment: "应用");
 
             migrationBuilder.CreateTable(
-                name: "BaseAppData",
+                name: "AppFunction",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -44,30 +62,33 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseAppData", x => x.Id);
-                },
-                comment: "数据");
-
-            migrationBuilder.CreateTable(
-                name: "BaseAppFunction",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
-                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, comment: "编号"),
-                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false, comment: "名称"),
-                    Remark = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true, comment: "备注"),
-                    SortNo = table.Column<int>(type: "integer", nullable: false, comment: "排序号"),
-                    CreateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "创建时间"),
-                    LastModifyTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "最后更新时间")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BaseAppFunction", x => x.Id);
+                    table.PrimaryKey("PK_AppFunction", x => x.Id);
                 },
                 comment: "功能");
 
             migrationBuilder.CreateTable(
-                name: "BaseAppResource",
+                name: "AppOperationLog",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
+                    Event = table.Column<string>(type: "text", nullable: true, comment: "事件"),
+                    Source = table.Column<string>(type: "text", nullable: true, comment: "来源"),
+                    Category = table.Column<string>(type: "text", nullable: true, comment: "分类"),
+                    UserId = table.Column<string>(type: "text", nullable: true, comment: "用户标识"),
+                    UserName = table.Column<string>(type: "text", nullable: true, comment: "用户名称"),
+                    Action = table.Column<string>(type: "text", nullable: true),
+                    Data = table.Column<string>(type: "text", nullable: true),
+                    CreateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "创建时间"),
+                    LastModifyTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "最后更新时间")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppOperationLog", x => x.Id);
+                },
+                comment: "操作日志");
+
+            migrationBuilder.CreateTable(
+                name: "AppResource",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -90,17 +111,17 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseAppResource", x => x.Id);
+                    table.PrimaryKey("PK_AppResource", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseAppResource_BaseAppResource_ParentId",
+                        name: "FK_AppResource_AppResource_ParentId",
                         column: x => x.ParentId,
-                        principalTable: "BaseAppResource",
+                        principalTable: "AppResource",
                         principalColumn: "Id");
                 },
                 comment: "资源");
 
             migrationBuilder.CreateTable(
-                name: "BaseOrgan",
+                name: "OwnerEntity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -121,37 +142,16 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseOrgan", x => x.Id);
+                    table.PrimaryKey("PK_OwnerEntity", x => x.Id);
                 },
                 comment: "机构");
 
             migrationBuilder.CreateTable(
-                name: "RunOperationLog",
+                name: "OwnerDepartment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
-                    Event = table.Column<string>(type: "text", nullable: true, comment: "事件"),
-                    Source = table.Column<string>(type: "text", nullable: true, comment: "来源"),
-                    Category = table.Column<string>(type: "text", nullable: true, comment: "分类"),
-                    UserId = table.Column<string>(type: "text", nullable: true, comment: "用户标识"),
-                    UserName = table.Column<string>(type: "text", nullable: true, comment: "用户名称"),
-                    Action = table.Column<string>(type: "text", nullable: true),
-                    Data = table.Column<string>(type: "text", nullable: true),
-                    CreateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "创建时间"),
-                    LastModifyTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "最后更新时间")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RunOperationLog", x => x.Id);
-                },
-                comment: "操作日志");
-
-            migrationBuilder.CreateTable(
-                name: "BaseOrganDepartment",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
-                    OrganId = table.Column<Guid>(type: "uuid", nullable: false, comment: "机构标识"),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false, comment: "机构标识"),
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, comment: "编号"),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false, comment: "名称"),
                     Remark = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true, comment: "备注"),
@@ -163,27 +163,27 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseOrganDepartment", x => x.Id);
+                    table.PrimaryKey("PK_OwnerDepartment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseOrganDepartment_BaseOrganDepartment_ParentId",
+                        name: "FK_OwnerDepartment_OwnerDepartment_ParentId",
                         column: x => x.ParentId,
-                        principalTable: "BaseOrganDepartment",
+                        principalTable: "OwnerDepartment",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_BaseOrganDepartment_BaseOrgan_OrganId",
-                        column: x => x.OrganId,
-                        principalTable: "BaseOrgan",
+                        name: "FK_OwnerDepartment_OwnerEntity_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "OwnerEntity",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "部门");
 
             migrationBuilder.CreateTable(
-                name: "BaseOrganRole",
+                name: "OwnerRole",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
-                    OrganId = table.Column<Guid>(type: "uuid", nullable: false, comment: "机构标识"),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false, comment: "机构标识"),
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, comment: "编号"),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false, comment: "名称"),
                     SortNo = table.Column<int>(type: "integer", nullable: false, comment: "排序号"),
@@ -192,17 +192,40 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseOrganRole", x => x.Id);
+                    table.PrimaryKey("PK_OwnerRole", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseOrganRole_BaseOrgan_OrganId",
-                        column: x => x.OrganId,
-                        principalTable: "BaseOrgan",
+                        name: "FK_OwnerRole_OwnerEntity_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "OwnerEntity",
                         principalColumn: "Id");
                 },
                 comment: "角色");
 
             migrationBuilder.CreateTable(
-                name: "BaseOrganEmployee",
+                name: "OwnerUser",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false, comment: "机构标识"),
+                    UserName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, comment: "用户名"),
+                    Password = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, comment: "密码"),
+                    CreateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "创建时间"),
+                    LastModifyTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, comment: "最后更新时间")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OwnerUser", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OwnerUser_OwnerEntity_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "OwnerEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "用户");
+
+            migrationBuilder.CreateTable(
+                name: "OwnerEmployee",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -222,18 +245,18 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseOrganEmployee", x => x.Id);
+                    table.PrimaryKey("PK_OwnerEmployee", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseOrganEmployee_BaseOrganDepartment_DepartmentId",
+                        name: "FK_OwnerEmployee_OwnerDepartment_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "BaseOrganDepartment",
+                        principalTable: "OwnerDepartment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "员工");
 
             migrationBuilder.CreateTable(
-                name: "BaseOrganRoleData",
+                name: "OwnerRoleData",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -244,23 +267,23 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseOrganRoleData", x => x.Id);
+                    table.PrimaryKey("PK_OwnerRoleData", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseOrganRoleData_BaseAppData_DataId",
+                        name: "FK_OwnerRoleData_AppData_DataId",
                         column: x => x.DataId,
-                        principalTable: "BaseAppData",
+                        principalTable: "AppData",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_BaseOrganRoleData_BaseOrganRole_RoleId",
+                        name: "FK_OwnerRoleData_OwnerRole_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "BaseOrganRole",
+                        principalTable: "OwnerRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "角色数据");
 
             migrationBuilder.CreateTable(
-                name: "BaseOrganRoleFunction",
+                name: "OwnerRoleFunction",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -272,29 +295,29 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseOrganRoleFunction", x => x.Id);
+                    table.PrimaryKey("PK_OwnerRoleFunction", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseOrganRoleFunction_BaseAppFunction_FunctionId",
+                        name: "FK_OwnerRoleFunction_AppFunction_FunctionId",
                         column: x => x.FunctionId,
-                        principalTable: "BaseAppFunction",
+                        principalTable: "AppFunction",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BaseOrganRoleFunction_BaseAppResource_ResourceId",
+                        name: "FK_OwnerRoleFunction_AppResource_ResourceId",
                         column: x => x.ResourceId,
-                        principalTable: "BaseAppResource",
+                        principalTable: "AppResource",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_BaseOrganRoleFunction_BaseOrganRole_RoleId",
+                        name: "FK_OwnerRoleFunction_OwnerRole_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "BaseOrganRole",
+                        principalTable: "OwnerRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "角色功能");
 
             migrationBuilder.CreateTable(
-                name: "BaseOrganRoleResource",
+                name: "OwnerRoleResource",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -305,24 +328,24 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseOrganRoleResource", x => x.Id);
+                    table.PrimaryKey("PK_OwnerRoleResource", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseOrganRoleResource_BaseAppResource_ResourceId",
+                        name: "FK_OwnerRoleResource_AppResource_ResourceId",
                         column: x => x.ResourceId,
-                        principalTable: "BaseAppResource",
+                        principalTable: "AppResource",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BaseOrganRoleResource_BaseOrganRole_RoleId",
+                        name: "FK_OwnerRoleResource_OwnerRole_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "BaseOrganRole",
+                        principalTable: "OwnerRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "角色资源");
 
             migrationBuilder.CreateTable(
-                name: "BaseOrganEmployeeRole",
+                name: "OwnerEmployeeRole",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, comment: "标识"),
@@ -333,134 +356,142 @@ namespace CommonServer.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseOrganEmployeeRole", x => x.Id);
+                    table.PrimaryKey("PK_OwnerEmployeeRole", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseOrganEmployeeRole_BaseOrganEmployee_EmployeeId",
+                        name: "FK_OwnerEmployeeRole_OwnerEmployee_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "BaseOrganEmployee",
+                        principalTable: "OwnerEmployee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BaseOrganEmployeeRole_BaseOrganRole_RoleId",
+                        name: "FK_OwnerEmployeeRole_OwnerRole_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "BaseOrganRole",
+                        principalTable: "OwnerRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "员工角色");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseAppResource_ParentId",
-                table: "BaseAppResource",
+                name: "IX_AppResource_ParentId",
+                table: "AppResource",
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganDepartment_OrganId",
-                table: "BaseOrganDepartment",
-                column: "OrganId");
+                name: "IX_OwnerDepartment_OwnerId",
+                table: "OwnerDepartment",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganDepartment_ParentId",
-                table: "BaseOrganDepartment",
+                name: "IX_OwnerDepartment_ParentId",
+                table: "OwnerDepartment",
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganEmployee_DepartmentId",
-                table: "BaseOrganEmployee",
+                name: "IX_OwnerEmployee_DepartmentId",
+                table: "OwnerEmployee",
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganEmployeeRole_EmployeeId",
-                table: "BaseOrganEmployeeRole",
+                name: "IX_OwnerEmployeeRole_EmployeeId",
+                table: "OwnerEmployeeRole",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganEmployeeRole_RoleId",
-                table: "BaseOrganEmployeeRole",
+                name: "IX_OwnerEmployeeRole_RoleId",
+                table: "OwnerEmployeeRole",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganRole_OrganId",
-                table: "BaseOrganRole",
-                column: "OrganId");
+                name: "IX_OwnerRole_OwnerId",
+                table: "OwnerRole",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganRoleData_DataId",
-                table: "BaseOrganRoleData",
+                name: "IX_OwnerRoleData_DataId",
+                table: "OwnerRoleData",
                 column: "DataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganRoleData_RoleId",
-                table: "BaseOrganRoleData",
+                name: "IX_OwnerRoleData_RoleId",
+                table: "OwnerRoleData",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganRoleFunction_FunctionId",
-                table: "BaseOrganRoleFunction",
+                name: "IX_OwnerRoleFunction_FunctionId",
+                table: "OwnerRoleFunction",
                 column: "FunctionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganRoleFunction_ResourceId",
-                table: "BaseOrganRoleFunction",
+                name: "IX_OwnerRoleFunction_ResourceId",
+                table: "OwnerRoleFunction",
                 column: "ResourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganRoleFunction_RoleId",
-                table: "BaseOrganRoleFunction",
+                name: "IX_OwnerRoleFunction_RoleId",
+                table: "OwnerRoleFunction",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganRoleResource_ResourceId",
-                table: "BaseOrganRoleResource",
+                name: "IX_OwnerRoleResource_ResourceId",
+                table: "OwnerRoleResource",
                 column: "ResourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseOrganRoleResource_RoleId",
-                table: "BaseOrganRoleResource",
+                name: "IX_OwnerRoleResource_RoleId",
+                table: "OwnerRoleResource",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OwnerUser_OwnerId",
+                table: "OwnerUser",
+                column: "OwnerId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BaseApp");
+                name: "AppEntity");
 
             migrationBuilder.DropTable(
-                name: "BaseOrganEmployeeRole");
+                name: "AppOperationLog");
 
             migrationBuilder.DropTable(
-                name: "BaseOrganRoleData");
+                name: "OwnerEmployeeRole");
 
             migrationBuilder.DropTable(
-                name: "BaseOrganRoleFunction");
+                name: "OwnerRoleData");
 
             migrationBuilder.DropTable(
-                name: "BaseOrganRoleResource");
+                name: "OwnerRoleFunction");
 
             migrationBuilder.DropTable(
-                name: "RunOperationLog");
+                name: "OwnerRoleResource");
 
             migrationBuilder.DropTable(
-                name: "BaseOrganEmployee");
+                name: "OwnerUser");
 
             migrationBuilder.DropTable(
-                name: "BaseAppData");
+                name: "OwnerEmployee");
 
             migrationBuilder.DropTable(
-                name: "BaseAppFunction");
+                name: "AppData");
 
             migrationBuilder.DropTable(
-                name: "BaseAppResource");
+                name: "AppFunction");
 
             migrationBuilder.DropTable(
-                name: "BaseOrganRole");
+                name: "AppResource");
 
             migrationBuilder.DropTable(
-                name: "BaseOrganDepartment");
+                name: "OwnerRole");
 
             migrationBuilder.DropTable(
-                name: "BaseOrgan");
+                name: "OwnerDepartment");
+
+            migrationBuilder.DropTable(
+                name: "OwnerEntity");
         }
     }
 }

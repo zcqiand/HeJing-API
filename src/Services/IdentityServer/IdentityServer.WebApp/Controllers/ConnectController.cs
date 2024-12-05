@@ -40,8 +40,8 @@ public class ConnectController : Controller
         _scopeManager = scopeManager;
     }
 
-    [HttpGet("~/authorize")]
-    [HttpPost("~/authorize")]
+    [HttpGet("~/connect/authorize")]
+    [HttpPost("~/connect/authorize")]
     [IgnoreAntiforgeryToken]
     public async Task<IActionResult> Authorize()
     {

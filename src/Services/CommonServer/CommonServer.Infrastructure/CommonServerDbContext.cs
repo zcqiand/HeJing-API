@@ -31,6 +31,8 @@ public partial class CommonServerDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<OwnerRole>()
             .HasOne(e => e.Owner)
             .WithMany(e => e.Roles)

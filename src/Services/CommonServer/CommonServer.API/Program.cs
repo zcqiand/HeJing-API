@@ -1,6 +1,6 @@
 using CommonServer.API.Mappers;
-using CommonServer.HostApp.Services;
-using Microsoft.Extensions.Configuration;
+//using CommonServer.HostApp.Services;
+//using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Reflection;
 
@@ -39,7 +39,7 @@ services.AddDbContext<CommonServerDbContext>(options =>
 
 services.Scan(
     scan => scan
-    .FromAssemblyOf<AppsService>()
+    .FromAssemblyOf<Program>()
     .AddClasses(classes => classes.Where(
         t => t.Name.EndsWith("Service", StringComparison.Ordinal)))
     .AsSelf()
