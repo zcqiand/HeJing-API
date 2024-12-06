@@ -29,3 +29,11 @@ jobs:
           file: ./src/Services/IdentityServer/IdentityServer.WebApp/Dockerfile
           push: true
           tags: zcqiand/identityserver-webapp:latest
+
+      - name: ssh login and pull Docker image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CLOUD_IP }}
+          username: ${{ secrets.CLOUD_NAME }}
+          password: ${{ secrets.CLOUD_PASSWORD }}
+          script: cd /home/app && sudo sh ChangLi-API.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
