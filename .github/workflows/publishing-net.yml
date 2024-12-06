@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./src/Services/IdentityServer/IdentityServer.WebApp/Dockerfile
           push: true
-          tags: zcqiand/IdentityServer-WebApp:latest
+          tags: zcqiand/identityserver-webapp:latest
