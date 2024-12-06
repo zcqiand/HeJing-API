@@ -4,15 +4,40 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<IsPackable>true</IsPackable>
+	<Authors>南荣相如</Authors>
+	<Company>南荣相如</Company>
+	<PackageIcon>logo-no.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/zcqiand/HeJing-API</RepositoryUrl>
+	<Copyright>南荣相如</Copyright>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	<OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-	<PackageReference Include="MediatR" Version="12.2.0" />
+	<PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CommonMormon.Infrastructure\CommonMormon.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+	  <None Update="logo-no.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+	  </None>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

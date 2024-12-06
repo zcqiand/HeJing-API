@@ -3,7 +3,7 @@
 /// <summary>
 /// 应用
 /// </summary>
-public class AppsUpdateInDto : DtoBase
+public class AppsUpdateInDto : CreateInBase
 {
     /// <summary>
     /// 标识

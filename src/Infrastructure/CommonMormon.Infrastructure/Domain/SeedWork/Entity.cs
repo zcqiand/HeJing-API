@@ -17,10 +17,10 @@ public abstract class Entity
     /// 创建时间
     /// </summary>
     [Comment("创建时间")]
-    public DateTimeOffset CreateTime { get; set; } = DateTimeOffset.Now;
+    public DateTimeOffset CreateTime { get; set; } = DateTimeOffset.UtcNow;
     /// <summary>
     /// 最后更新时间
     /// </summary>
     [Comment("最后更新时间")]
-    public DateTimeOffset LastModifyTime { get; set; } = DateTimeOffset.Now;
+    public DateTimeOffset LastModifyTime { get; set; } = DateTimeOffset.UtcNow;
 }

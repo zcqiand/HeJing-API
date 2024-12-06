@@ -5,7 +5,7 @@ namespace CommonServer.Shared.DTO.AppResource;
 /// <summary>
 /// 资源
 /// </summary>
-public class AppResourceUpdateInDto : DtoBase
+public class AppResourceUpdateInDto : CreateInBase
 {
     /// <summary>
     /// 标识

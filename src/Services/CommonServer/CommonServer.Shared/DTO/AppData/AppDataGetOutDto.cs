@@ -3,7 +3,7 @@
 /// <summary>
 /// 数据
 /// </summary>
-public class AppDataGetOutDto : DtoBase
+public class AppDataGetOutDto : CreateInBase
 {
     /// <summary>
     /// 标识

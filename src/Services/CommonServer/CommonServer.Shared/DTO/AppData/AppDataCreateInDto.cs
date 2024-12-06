@@ -3,7 +3,7 @@
 /// <summary>
 /// 数据
 /// </summary>
-public class AppsDataCreateInDto : DtoBase
+public class AppsDataCreateInDto : CreateInBase
 {
     /// <summary>
     /// 标识

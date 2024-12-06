@@ -1,5 +1,6 @@
 using CommonServer.API.Mappers;
-using CommonServer.HostApp.Services;
+//using CommonServer.HostApp.Services;
+//using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Reflection;
 
@@ -28,15 +29,17 @@ services.AddCors(options =>
 });
 
 
+var connectionString = configuration.GetConnectionString("CommonServerDbConnection") ?? throw new InvalidOperationException("Connection string 'CommonServerDbConnection' not found.");
+
 services.AddDbContext<CommonServerDbContext>(options =>
 {
     options.EnableSensitiveDataLogging(true);
-    options.UseSqlServer(configuration.GetConnectionString("CommonServerDbConnection")!, b => b.MigrationsAssembly("CommonServer.API"));
+    options.UseNpgsql(connectionString, b => b.MigrationsAssembly("CommonServer.API"));
 });
 
 services.Scan(
     scan => scan
-    .FromAssemblyOf<AppsService>()
+    .FromAssemblyOf<Program>()
     .AddClasses(classes => classes.Where(
         t => t.Name.EndsWith("Service", StringComparison.Ordinal)))
     .AsSelf()

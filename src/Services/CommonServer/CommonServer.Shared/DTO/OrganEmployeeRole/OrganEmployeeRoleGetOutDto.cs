@@ -3,7 +3,7 @@
 /// <summary>
 /// 用户角色
 /// </summary>
-public class OrganEmployeeRoleGetOutDto : DtoBase
+public class OrganEmployeeRoleGetOutDto : CreateInBase
 {
     /// <summary>
     /// 标识

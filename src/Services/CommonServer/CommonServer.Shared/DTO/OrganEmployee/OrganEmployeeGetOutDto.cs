@@ -3,7 +3,7 @@
 /// <summary>
 /// 员工
 /// </summary>
-public class OrganEmployeeGetOutDto : DtoBase
+public class OrganEmployeeGetOutDto : CreateInBase
 {
     /// <summary>
     /// 标识

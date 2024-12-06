@@ -3,7 +3,7 @@
 /// <summary>
 /// 机构
 /// </summary>
-public class OrgansGetOutDto : DtoBase
+public class OrgansGetOutDto : CreateInBase
 {
     /// <summary>
     /// 标识

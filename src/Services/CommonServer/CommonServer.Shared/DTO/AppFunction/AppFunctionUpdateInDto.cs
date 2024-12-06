@@ -3,7 +3,7 @@
 /// <summary>
 /// 功能
 /// </summary>
-public class AppFunctionUpdateInDto : DtoBase
+public class AppFunctionUpdateInDto : CreateInBase
 {
     /// <summary>
     /// 标识

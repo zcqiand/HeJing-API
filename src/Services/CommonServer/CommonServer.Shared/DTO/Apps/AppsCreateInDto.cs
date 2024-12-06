@@ -3,7 +3,7 @@
 /// <summary>
 /// 应用
 /// </summary>
-public class AppsCreateInDto : DtoBase
+public class AppsCreateInDto : CreateInBase
 {
     /// <summary>
     /// 标识
