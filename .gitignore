@@ -339,5 +339,3 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /doc/CodeSmith/output
-/src/Services/IdentityServer/IdentityServer.WebApp/appsettings.Development.json
-/src/Services/IdentityServer/IdentityServer.WebApp/appsettings.Development.json

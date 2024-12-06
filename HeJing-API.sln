@@ -35,8 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer.WebApp", "src\Services\IdentityServer\IdentityServer.WebApp\IdentityServer.WebApp.csproj", "{5A19C91F-7272-4CB0-8D83-907205D69260}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{3F34636C-80FB-4850-8A61-082434391870}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Set", ".Set", "{3F34636C-80FB-4850-8A61-082434391870}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		.github\workflows\publishing-net.yml = .github\workflows\publishing-net.yml
 	EndProjectSection
 EndProject
