@@ -2,9 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <UserSecretsId>7c99c1b6-b22c-4b02-ae7a-aa0e1da50095</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="5.8.0" />
     <PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="5.8.0" />
   </ItemGroup>
