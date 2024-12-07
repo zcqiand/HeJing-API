@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 jobs:
-  build-and-deploy:
+  build-and-deploy-identityserver-webapp:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,3 +37,69 @@ jobs:
           username: ${{ secrets.CLOUD_NAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
           script: cd /home/app/changli && sudo sh identityserver-webapp.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+
+  build-and-deploy-identityserver-testclient1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./src/Services/IdentityServer/IdentityServer.TestClient1/Dockerfile
+          push: true
+          tags: zcqiand/identityserver-testclient1:latest
+
+      - name: ssh login and pull Docker image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CLOUD_IP }}
+          username: ${{ secrets.CLOUD_NAME }}
+          password: ${{ secrets.CLOUD_PASSWORD }}
+          script: cd /home/app/changli && sudo sh identityserver-testclient1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+
+  build-and-deploy-identityserver-testapp1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./src/Services/IdentityServer/IdentityServer.TestApi1/Dockerfile
+          push: true
+          tags: zcqiand/identityserver-testapp1:latest
+
+      - name: ssh login and pull Docker image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CLOUD_IP }}
+          username: ${{ secrets.CLOUD_NAME }}
+          password: ${{ secrets.CLOUD_PASSWORD }}
+          script: cd /home/app/changli && sudo sh identityserver-testapp1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
