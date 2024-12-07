@@ -36,4 +36,4 @@ jobs:
           host: ${{ secrets.CLOUD_IP }}
           username: ${{ secrets.CLOUD_NAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          script: cd /home/app && sudo sh ChangLi-API.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+          script: cd /home/app/changli && sudo sh identityserver-webapp.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
