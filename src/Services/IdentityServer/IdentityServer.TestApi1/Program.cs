@@ -8,7 +8,10 @@ using OpenIddict.Validation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
+var configuration = builder.Configuration;
+var services = builder.Services;
+
+services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
@@ -18,10 +21,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddOpenIddict()
+services.AddOpenIddict()
     .AddValidation(options =>
     {
-        options.SetIssuer("https://localhost:55208/");
+        options.SetIssuer(configuration["OpenIddict:IssuerUrl"]!);
 
         options.AddEncryptionKey(new SymmetricSecurityKey(
             Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
@@ -31,8 +34,8 @@ builder.Services.AddOpenIddict()
         options.UseAspNetCore();
     });
 
-builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
-builder.Services.AddAuthorization();
+services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+services.AddAuthorization();
 
 var app = builder.Build();
 
