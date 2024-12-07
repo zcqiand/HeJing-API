@@ -10,7 +10,7 @@
     <p id="login-status"></p>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/oidc-client-ts/2.0.2/browser/oidc-client-ts.min.js"></script>
-    <script src="./index.js"></script>
+    <script src="'./index.js?v=' + new Date().getTime()"></script>
     <script>
         document.getElementById('login-button').onclick = () => login();
         document.getElementById('refresh-button').onclick = () => refreshToken();
