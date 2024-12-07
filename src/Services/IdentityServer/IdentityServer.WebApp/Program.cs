@@ -91,7 +91,8 @@ services.AddOpenIddict()
          options.UseAspNetCore()
                 .EnableAuthorizationEndpointPassthrough()
                 .EnableAuthorizationRequestCaching()
-                .EnableLogoutEndpointPassthrough();
+                .EnableLogoutEndpointPassthrough()
+                .DisableTransportSecurityRequirement();
 
      })
     .AddValidation(options =>
