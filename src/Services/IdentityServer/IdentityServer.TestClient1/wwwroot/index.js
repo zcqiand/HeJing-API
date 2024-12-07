@@ -1,7 +1,7 @@
 ﻿oidc.Log.setLogger(console);
 
 const userManager = new oidc.UserManager({
-    authority: 'https://localhost:55208',
+    authority: 'https://identity.nanrong.store',
     scope: 'openid offline_access',
     client_id: 'spa_client',
     redirect_uri: window.location.origin + '/signin-callback.html',
