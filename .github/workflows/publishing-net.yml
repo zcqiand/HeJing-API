@@ -71,7 +71,7 @@ jobs:
           password: ${{ secrets.CLOUD_PASSWORD }}
           script: cd /home/app/changli && sudo sh identityserver-testclient1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
 
-  build-and-deploy-identityserver-testapp1:
+  build-and-deploy-identityserver-testapi1:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -94,7 +94,7 @@ jobs:
           context: .
           file: ./src/Services/IdentityServer/IdentityServer.TestApi1/Dockerfile
           push: true
-          tags: zcqiand/identityserver-testapp1:latest
+          tags: zcqiand/identityserver-testapi1:latest
 
       - name: ssh login and pull Docker image
         uses: appleboy/ssh-action@master
@@ -102,4 +102,4 @@ jobs:
           host: ${{ secrets.CLOUD_IP }}
           username: ${{ secrets.CLOUD_NAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          script: cd /home/app/changli && sudo sh identityserver-testapp1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+          script: cd /home/app/changli && sudo sh identityserver-testapi1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
