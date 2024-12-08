@@ -9,21 +9,19 @@
 <%@ Import Namespace="System.Text.RegularExpressions" %>
 using <%=RootNamespace%>.Shared.DTO.<%=ClassName%>;
 
-namespace <%=RootNamespace%>.HostApp.Services;
+namespace <%=RootNamespace%>.API.Services;
 
 /// <summary>
 /// <%= SourceTable.Description %>
 /// </summary>
 public class <%=ClassName%>Service : ServiceBase
 {
-    private readonly ERPDbContext _dbContext;
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="serviceProvider"></param>
     public <%=ClassName%>Service(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _dbContext = serviceProvider.GetRequiredService<ERPDbContext>();
     }
 
     /// <summary>
@@ -37,9 +35,9 @@ public class <%=ClassName%>Service : ServiceBase
         
         model.Id = NewId.NextSequentialGuid();
         
-        await _dbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.AddAsync(model);
+        await DefaultDbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.AddAsync(model);
 
-        await _dbContext.SaveChangesAsync();
+        await DefaultDbContext.SaveChangesAsync();
 
         return model.Id;
     }
@@ -51,13 +49,13 @@ public class <%=ClassName%>Service : ServiceBase
     /// <returns></returns>
     public async Task<bool> Update(<%=ClassName%>UpdateInDto input)
     {
-        var model = await _dbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.SingleAsync(x => x.<%= GetPrimaryKeyName() %>.Equals(input.<%= GetPrimaryKeyName() %>));
+        var model = await DefaultDbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.SingleAsync(x => x.<%= GetPrimaryKeyName() %>.Equals(input.<%= GetPrimaryKeyName() %>));
 
         Mapper.Map(input, model);
 
         model.LastModifyTime = DateTimeOffset.Now;
 
-        await _dbContext.SaveChangesAsync();
+        await DefaultDbContext.SaveChangesAsync();
 
         return true;
     }
@@ -69,11 +67,11 @@ public class <%=ClassName%>Service : ServiceBase
     /// <returns></returns>
     public async Task<bool> Delete(<%=ClassName%>DeleteInDto input)
     {
-        var model = await _dbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.SingleAsync(x => x.<%= GetPrimaryKeyName() %>.Equals(input.<%= GetPrimaryKeyName() %>));
+        var model = await DefaultDbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.SingleAsync(x => x.<%= GetPrimaryKeyName() %>.Equals(input.<%= GetPrimaryKeyName() %>));
 
-        _dbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.Remove(model);
+        DefaultDbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.Remove(model);
 
-        await _dbContext.SaveChangesAsync();
+        await DefaultDbContext.SaveChangesAsync();
 
         return true;
     }
@@ -85,11 +83,11 @@ public class <%=ClassName%>Service : ServiceBase
     /// <returns></returns>
     public async Task<bool> BatchDelete(<%=ClassName%>BatchDeleteInDto input)
     {
-        var model = await _dbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.Where(x => input.<%= GetPrimaryKeyName() %>s.Contains(x.<%= GetPrimaryKeyName() %>)).ToListAsync();
+        var model = await DefaultDbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.Where(x => input.<%= GetPrimaryKeyName() %>s.Contains(x.<%= GetPrimaryKeyName() %>)).ToListAsync();
 
-        _dbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.RemoveRange(model);
+        DefaultDbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.RemoveRange(model);
 
-        await _dbContext.SaveChangesAsync();
+        await DefaultDbContext.SaveChangesAsync();
 
         return true;
     }
@@ -99,9 +97,9 @@ public class <%=ClassName%>Service : ServiceBase
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<PagingOut<<%=ClassName%>QueryOutDto>> Query(<%=ClassName%>QueryInDto input)
+    public async Task<PagingOutBase<<%=ClassName%>QueryOutDto>> Query(<%=ClassName%>QueryInDto input)
     {
-        var query = from a in _dbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.AsNoTracking()
+        var query = from a in DefaultDbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.AsNoTracking()
                     select a;
 
         #region filter
@@ -117,7 +115,7 @@ public class <%=ClassName%>Service : ServiceBase
 
         var itemDtos = Mapper.Map<IList<<%=ClassName%>QueryOutDto>>(items);
 
-        return new PagingOut<<%=ClassName%>QueryOutDto>(total, itemDtos);
+        return new PagingOutBase<<%=ClassName%>QueryOutDto>(total, itemDtos);
     }
 
     /// <summary>
@@ -127,7 +125,7 @@ public class <%=ClassName%>Service : ServiceBase
     /// <returns></returns>
     public async Task<<%=ClassName%>GetOutDto> Get(<%=ClassName%>GetInDto input)
     {
-        var query = from a in _dbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.AsNoTracking()
+        var query = from a in DefaultDbContext.<%=StringUtil.ToPlural(SourceTable.Name)%>.AsNoTracking()
                     where a.<%= GetPrimaryKeyName() %> == input.<%= GetPrimaryKeyName() %>
                     select a;
 

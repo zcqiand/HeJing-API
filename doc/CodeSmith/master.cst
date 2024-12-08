@@ -1,7 +1,6 @@
 ﻿<%@ CodeTemplate Language="C#" TargetLanguage="Text" OutputType="None" %>
 <%@ Property Name="SourceDatabase" Type="SchemaExplorer.DatabaseSchema" Category="Context" DeepLoad="True" %>
 <%@ Property Name="RootNamespace" Type="String" Category="Context" DeepLoad="True" %>
-<%@ Property Name="AreaName" Type="String" Category="Context" DeepLoad="True" %>
 <%@ Property Name="OutputDirectory" Type="String" Category="Output" DeepLoad="True" %>
 <%@ Register Name="CreateInDtoTemplate" Template="CreateInDto.cs.cst" %>
 <%@ Register Name="UpdateInDtoTemplate" Template="UpdateInDto.cs.cst" %>

@@ -8,7 +8,7 @@ namespace CommonMormon.Infrastructure.API.Controllers;
 /// <summary>
 /// 
 /// </summary>
-[Route("api/[area]/[controller]/[action]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public abstract class AppControllerBase : Controller
 {

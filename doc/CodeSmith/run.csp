@@ -16,13 +16,16 @@
     <add key="ConnectionString12" value="Data Source=.;Initial Catalog=IdentityServerPlus;User ID=sa;Password=fuqing68+++" />
     <add key="ConnectionString13" value="Data Source=.;Initial Catalog=CommonServerDb;User ID=sa;Password=fuqing68+++" />
     <add key="ConnectionString14" value="Data Source=.;Initial Catalog=ChilongDb;User ID=sa;Password=fuqing68+++" />
+    <add key="ConnectionString15" value="Data Source=.;Initial Catalog=CommonServerDb;User ID=sa;Password=fuqing68+++;TrustServerCertificate=true" />
   </variables>
   <propertySets>
     <propertySet name="CommonServerDb" template="master.cst">
       <property name="SourceDatabase">
-        <connectionString>$(ConnectionString13)</connectionString>
+        <connectionString>$(ConnectionString15)</connectionString>
         <providerType>SchemaExplorer.SqlSchemaProvider,SchemaExplorer.SqlSchemaProvider</providerType>
       </property>
+      <property name="RootNamespace">CommonServer</property>
+      <property name="OutputDirectory">D:\qiand-life\2-areas\invest\programming\HeJing\HeJing-API\doc\CodeSmith\output</property>
     </propertySet>
     <propertySet name="ChilongDb" template="master.cst">
       <property name="SourceDatabase">

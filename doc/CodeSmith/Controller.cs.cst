@@ -1,7 +1,6 @@
 ﻿<%@ CodeTemplate Language="C#" TargetLanguage="XML"%>
 <%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" %>
 <%@ Property Name="RootNamespace" Type="String" Category="Context" %>
-<%@ Property Name="AreaName" Type="String" Category="Context" %>
 <%@ Property Name="ClassName" Type="String" Category="Context" %>
 <%@ Map Name="CSharpAlias" Src="System-CSharpAlias" %>
 <%@ Assembly Name="SchemaExplorer" %>
@@ -10,15 +9,14 @@
 <script runat="template">
 <!-- #include file="common.cst" -->
 </script>
-using <%=RootNamespace%>.HostApp.Services;
+using <%=RootNamespace%>.API.Services;
 using <%=RootNamespace%>.Shared.DTO.<%=ClassName%>;
 
-namespace <%=RootNamespace%>.HostApp.Controllers;
+namespace <%=RootNamespace%>.API.Controllers;
 
 /// <summary>
 /// <%= SourceTable.Description %>
 /// </summary>
-[Area("<%=AreaName%>")]
 public class <%=ClassName%>Controller : AppControllerBase
 {
     private readonly <%=ClassName%>Service _service;
@@ -88,7 +86,7 @@ public class <%=ClassName%>Controller : AppControllerBase
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<ApiResult<PagingOut<<%=ClassName%>QueryOutDto>>> Query([FromQuery] <%=ClassName%>QueryInDto input)
+    public async Task<ApiResult<PagingOutBase<<%=ClassName%>QueryOutDto>>> Query([FromQuery] <%=ClassName%>QueryInDto input)
     {
         var result = await _service.Query(input);
         return Success(result);
