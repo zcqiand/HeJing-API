@@ -32,10 +32,10 @@ public class AppEntityQueryOutDto
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTime CreateTime { get; set; }
+    public DateTimeOffset CreateTime { get; set; }
     /// <summary>
     /// 最后更新时间
     /// </summary>
-    public DateTime LastModifyTime { get; set; }
+    public DateTimeOffset LastModifyTime { get; set; }
 }
 
