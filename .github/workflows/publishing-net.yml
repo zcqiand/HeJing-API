@@ -36,7 +36,7 @@ jobs:
           host: ${{ secrets.CLOUD_IP }}
           username: ${{ secrets.CLOUD_NAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          script: cd /home/app/changli && sudo sh identityserver-webapp.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+          script: cd /home/app/hejing && sudo sh identityserver-webapp.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
 
   build-and-deploy-identityserver-testclient1:
     runs-on: ubuntu-latest
@@ -69,7 +69,7 @@ jobs:
           host: ${{ secrets.CLOUD_IP }}
           username: ${{ secrets.CLOUD_NAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          script: cd /home/app/changli && sudo sh identityserver-testclient1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+          script: cd /home/app/hejing && sudo sh identityserver-testclient1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
 
   build-and-deploy-identityserver-testapi1:
     runs-on: ubuntu-latest
@@ -102,7 +102,7 @@ jobs:
           host: ${{ secrets.CLOUD_IP }}
           username: ${{ secrets.CLOUD_NAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          script: cd /home/app/changli && sudo sh identityserver-testapi1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+          script: cd /home/app/hejing && sudo sh identityserver-testapi1.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
 
   build-and-deploy-commonserver-api:
     runs-on: ubuntu-latest
@@ -135,4 +135,4 @@ jobs:
           host: ${{ secrets.CLOUD_IP }}
           username: ${{ secrets.CLOUD_NAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          script: cd /home/app/changli && sudo sh commonserver-api.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+          script: cd /home/app/hejing && sudo sh commonserver-api.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
