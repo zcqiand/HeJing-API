@@ -3,7 +3,7 @@
 const userManager = new oidc.UserManager({
     authority: 'https://identity.nanrong.store',
     scope: 'openid offline_access',
-    client_id: 'spa_client',
+    client_id: 'testclient1',
     redirect_uri: window.location.origin + '/signin-callback.html',
     response_type: 'code',
     userStore: new oidc.WebStorageStateStore({ store: window.localStorage }),

@@ -700,46 +700,6 @@ namespace CommonServer.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CommonServer.Domain.Model.OwnerUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasComment("标识");
-
-                    b.Property<DateTimeOffset>("CreateTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasComment("创建时间");
-
-                    b.Property<DateTimeOffset>("LastModifyTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasComment("最后更新时间");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uuid")
-                        .HasComment("机构标识");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasComment("密码");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasComment("用户名");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("OwnerUser", t =>
-                        {
-                            t.HasComment("用户");
-                        });
-                });
-
             modelBuilder.Entity("CommonServer.Domain.Model.AppResource", b =>
                 {
                     b.HasOne("CommonServer.Domain.Model.AppResource", "Parent")
@@ -866,17 +826,6 @@ namespace CommonServer.API.Migrations
                     b.Navigation("Resource");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("CommonServer.Domain.Model.OwnerUser", b =>
-                {
-                    b.HasOne("CommonServer.Domain.Model.OwnerEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("CommonServer.Domain.Model.AppResource", b =>

@@ -15,7 +15,7 @@ namespace <%=RootNamespace%>.Shared.DTO.<%= StringUtil.ToPascalCase(ClassName) %
 /// <summary>
 /// <%= SourceTable.Description %>
 /// </summary>
-public class <%= StringUtil.ToPascalCase(ClassName) %>UpdateInDto : DtoBase
+public class <%= StringUtil.ToPascalCase(ClassName) %>UpdateInDto : UpdateInBase
 {
     <% foreach (ColumnSchema column in SourceTable.Columns) {
        if(Array.IndexOf(GetDtoBaseFields(),column.Name)==-1) {%>
