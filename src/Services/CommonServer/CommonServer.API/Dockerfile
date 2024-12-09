@@ -9,16 +9,16 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HeJing-API/src/Services/CommonServer/CommonServer.API/CommonServer.API.csproj", "HeJing-API/src/Services/CommonServer/CommonServer.API/"]
-COPY ["HeJing-API/src/Infrastructure/CommonMormon.Infrastructure.API/CommonMormon.Infrastructure.API.csproj", "HeJing-API/src/Infrastructure/CommonMormon.Infrastructure.API/"]
-COPY ["HeJing-API/src/Infrastructure/CommonMormon.Infrastructure/CommonMormon.Infrastructure.csproj", "HeJing-API/src/Infrastructure/CommonMormon.Infrastructure/"]
-COPY ["HeJing-API/src/Infrastructure/CommonMormon.Infrastructure.Shared/CommonMormon.Infrastructure.Shared.csproj", "HeJing-API/src/Infrastructure/CommonMormon.Infrastructure.Shared/"]
-COPY ["HeJing-API/src/Services/CommonServer/CommonServer.Domain/CommonServer.Domain.csproj", "HeJing-API/src/Services/CommonServer/CommonServer.Domain/"]
-COPY ["HeJing-API/src/Services/CommonServer/CommonServer.Shared/CommonServer.Shared.csproj", "HeJing-API/src/Services/CommonServer/CommonServer.Shared/"]
-COPY ["HeJing-API/src/Services/CommonServer/CommonServer.Infrastructure/CommonServer.Infrastructure.csproj", "HeJing-API/src/Services/CommonServer/CommonServer.Infrastructure/"]
-RUN dotnet restore "./HeJing-API/src/Services/CommonServer/CommonServer.API/CommonServer.API.csproj"
+COPY ["src/Services/CommonServer/CommonServer.API/CommonServer.API.csproj", "src/Services/CommonServer/CommonServer.API/"]
+COPY ["src/Infrastructure/CommonMormon.Infrastructure.API/CommonMormon.Infrastructure.API.csproj", "src/Infrastructure/CommonMormon.Infrastructure.API/"]
+COPY ["src/Infrastructure/CommonMormon.Infrastructure/CommonMormon.Infrastructure.csproj", "src/Infrastructure/CommonMormon.Infrastructure/"]
+COPY ["src/Infrastructure/CommonMormon.Infrastructure.Shared/CommonMormon.Infrastructure.Shared.csproj", "src/Infrastructure/CommonMormon.Infrastructure.Shared/"]
+COPY ["src/Services/CommonServer/CommonServer.Domain/CommonServer.Domain.csproj", "src/Services/CommonServer/CommonServer.Domain/"]
+COPY ["src/Services/CommonServer/CommonServer.Shared/CommonServer.Shared.csproj", "src/Services/CommonServer/CommonServer.Shared/"]
+COPY ["src/Services/CommonServer/CommonServer.Infrastructure/CommonServer.Infrastructure.csproj", "src/Services/CommonServer/CommonServer.Infrastructure/"]
+RUN dotnet restore "./src/Services/CommonServer/CommonServer.API/CommonServer.API.csproj"
 COPY . .
-WORKDIR "/src/HeJing-API/src/Services/CommonServer/CommonServer.API"
+WORKDIR "/src/src/Services/CommonServer/CommonServer.API"
 RUN dotnet build "./CommonServer.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
