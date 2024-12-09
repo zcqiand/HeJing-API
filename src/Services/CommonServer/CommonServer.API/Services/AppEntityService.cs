@@ -104,7 +104,7 @@ public class AppEntityService : ServiceBase
             .Take(input.PageSize)
             .ToListAsync();
 
-        var itemDtos = Mapper.Map<IList<AppEntityQueryOutDto>>(items);
+        var itemDtos = Mapper.Map<List<AppEntityQueryOutDto>>(items);
 
         return new PagingOutBase<AppEntityQueryOutDto>(total, itemDtos);
     }
