@@ -14,7 +14,7 @@
 	<Copyright>南荣相如</Copyright>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	<OutputType>Library</OutputType>
-    <VersionPrefix>1.0.2</VersionPrefix>
+    <VersionPrefix>1.0.3</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
