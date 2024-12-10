@@ -158,8 +158,8 @@ jobs:
       - name: Pack nugets
         run:  |
             dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.csproj --configuration Release --output ./nuget
-            dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.API --configuration Release --output ./nuget
-            dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.Shared --configuration Release --output ./nuget
+            dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.API.csproj --configuration Release --output ./nuget
+            dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.Shared.csproj --configuration Release --output ./nuget
 
       - name: Push to NuGet
         run: dotnet nuget push ./nuget/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json
