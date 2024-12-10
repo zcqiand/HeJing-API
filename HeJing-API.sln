@@ -5,8 +5,6 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{455E395F-0047-4697-87BC-BD110AB80548}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{6EEFC9C4-F8B4-49FA-AFC2-CC7B5CD29D16}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{BCC91017-7B11-4EA4-9BCB-2D5A2E6366AB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonMormon.Infrastructure.Shared", "src\Infrastructure\CommonMormon.Infrastructure.Shared\CommonMormon.Infrastructure.Shared.csproj", "{72D005AE-21F9-47C1-9AFD-BA8E29453ADF}"
@@ -35,10 +33,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer.WebApp", "src\Services\IdentityServer\IdentityServer.WebApp\IdentityServer.WebApp.csproj", "{5A19C91F-7272-4CB0-8D83-907205D69260}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Set", ".Set", "{3F34636C-80FB-4850-8A61-082434391870}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Common", ".Common", "{8F0C6410-40A2-44D4-8764-8B48D7D1C5E1}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
+		LICENSE = LICENSE
 		.github\workflows\publishing-net.yml = .github\workflows\publishing-net.yml
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
