@@ -1,10 +1,10 @@
-name: publishing-net
+# name: publishing-net
 
-on:
-  push:
-    branches: ["main"]
+# on:
+#   push:
+#     branches: ["main"]
 
-jobs:
+# jobs:
   # build-and-deploy-identityserver-webapp:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -137,29 +137,29 @@ jobs:
   #         password: ${{ secrets.CLOUD_PASSWORD }}
   #         script: cd /home/app/hejing && sudo sh commonserver-api.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
 
-  build-and-deploy-nuget:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # build-and-deploy-nuget:
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
+  #     - name: Setup .NET
+  #       uses: actions/setup-dotnet@v3
+  #       with:
+  #         dotnet-version: 8.0.x
 
-      - name: Build
-        run:  |
-            dotnet build src/Infrastructure/**/CommonMormon.Infrastructure.csproj --configuration Release
-            dotnet build src/Infrastructure/**/CommonMormon.Infrastructure.API.csproj --configuration Release
-            dotnet build src/Infrastructure/**/CommonMormon.Infrastructure.Shared.csproj --configuration Release
+  #     - name: Build
+  #       run:  |
+  #           dotnet build src/Infrastructure/**/CommonMormon.Infrastructure.csproj --configuration Release
+  #           dotnet build src/Infrastructure/**/CommonMormon.Infrastructure.API.csproj --configuration Release
+  #           dotnet build src/Infrastructure/**/CommonMormon.Infrastructure.Shared.csproj --configuration Release
 
-      - name: Pack nugets
-        run:  |
-            dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.csproj --configuration Release --output ./nuget
-            dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.API.csproj --configuration Release --output ./nuget
-            dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.Shared.csproj --configuration Release --output ./nuget
+  #     - name: Pack nugets
+  #       run:  |
+  #           dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.csproj --configuration Release --output ./nuget
+  #           dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.API.csproj --configuration Release --output ./nuget
+  #           dotnet pack src/Infrastructure/**/CommonMormon.Infrastructure.Shared.csproj --configuration Release --output ./nuget
 
-      - name: Push to NuGet
-        run: dotnet nuget push ./nuget/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json
+  #     - name: Push to NuGet
+  #       run: dotnet nuget push ./nuget/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json
