@@ -65,7 +65,7 @@ services.AddOpenIddict()
         options.SetIssuer(configuration["OpenIddict:IssuerUrl"]!);
 
         options.AddEncryptionKey(new SymmetricSecurityKey(
-            Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
+            Convert.FromBase64String(configuration["OpenIddict:SecurityKey"]!)));
 
         options.UseSystemNetHttp();
 
@@ -77,6 +77,11 @@ services.AddAuthorization(options =>
 {
     options.AddPolicy("ApiScope", policy =>
     {
+        policy.RequireAssertion(context =>
+        {
+            var httpContext = context.Resource as HttpContext ?? throw new NullReferenceException("context.Resource is null");
+            return context.User.IsInRole("admin") || httpContext.Request.Method == "GET";
+        });
         policy.RequireAuthenticatedUser();
     });
 });
