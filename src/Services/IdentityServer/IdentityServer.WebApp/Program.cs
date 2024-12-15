@@ -113,7 +113,16 @@ services.AddOpenIddict()
 // Note: in a real world application, this step should be part of a setup script.
 services.AddHostedService<Worker>();
 
-services.AddCors();
+services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>())
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
+    });
+});
 
 services.AddAuthorization();
 services.AddAuthentication().AddGoogle(googleOptions =>
@@ -140,7 +149,7 @@ else
     app.UseHsts();
 }
 
-app.UseCors(b => b.AllowAnyHeader().AllowAnyMethod().WithOrigins("*"));
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

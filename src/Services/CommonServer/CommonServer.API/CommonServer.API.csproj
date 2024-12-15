@@ -44,10 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Https\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\CommonMormon.Infrastructure.API\CommonMormon.Infrastructure.API.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\CommonMormon.Infrastructure.Shared\CommonMormon.Infrastructure.Shared.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\CommonMormon.Infrastructure\CommonMormon.Infrastructure.csproj" />
