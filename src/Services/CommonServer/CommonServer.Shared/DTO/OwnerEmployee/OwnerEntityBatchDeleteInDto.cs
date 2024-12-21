@@ -1,4 +1,4 @@
-﻿namespace CommonServer.Shared.DTO.OwnerEntity;
+﻿namespace CommonServer.Shared.DTO.OwnerEmployee;
 
 /// <summary>
 /// 机构

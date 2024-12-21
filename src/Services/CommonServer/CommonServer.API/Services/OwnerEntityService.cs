@@ -1,4 +1,5 @@
-﻿using CommonServer.Shared.DTO.OwnerEntity;
+﻿using CommonServer.Shared.DTO.OwnerEmployee;
+using CommonServer.Shared.DTO.OwnerEntity;
 
 namespace CommonServer.API.Services;
 
