@@ -37,6 +37,8 @@ public class DtoToDomainProfile : Profile
         CreateMap<AppResourceUpdateInDto, AppResource>();
         CreateMap<AppResource, AppResourceQueryOutDto>();
         CreateMap<AppResource, AppResourceGetOutDto>();
+        CreateMap<AppResource, AppResourceQueryTreeSelectOutDto>();
+        CreateMap<AppResource, AppResourceQueryTreeTableOutDto>();
         #endregion
 
         #region AppFunction

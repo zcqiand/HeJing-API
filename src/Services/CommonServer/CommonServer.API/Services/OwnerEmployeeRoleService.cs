@@ -44,7 +44,7 @@ public class OwnerEmployeeRoleService : ServiceBase
 
         Mapper.Map(input, model);
 
-        model.LastModifyTime = DateTimeOffset.Now;
+        model.LastModifyTime = DateTimeOffset.UtcNow;
 
         await DefaultDbContext.SaveChangesAsync();
 

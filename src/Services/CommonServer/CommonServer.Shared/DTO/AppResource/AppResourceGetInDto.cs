@@ -6,7 +6,7 @@
 public class AppResourceGetInDto
 {
     /// <summary>
-    /// 标识
+    /// 
     /// </summary>
     public Guid Id { get; set; }
 }

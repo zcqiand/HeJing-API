@@ -44,7 +44,7 @@ public class AppResourceService : ServiceBase
 
         Mapper.Map(input, model);
 
-        model.LastModifyTime = DateTimeOffset.Now;
+        model.LastModifyTime = DateTimeOffset.UtcNow;
 
         await DefaultDbContext.SaveChangesAsync();
 
@@ -99,7 +99,8 @@ public class AppResourceService : ServiceBase
         var total = await query.CountAsync();
 
         var items = await query
-            .OrderByDescending(x=>x.LastModifyTime)
+            .OrderBy(x => x.SortNo)
+            .ThenByDescending(x=>x.LastModifyTime)
             .Skip((input.PageIndex - 1) * input.PageSize)
             .Take(input.PageSize)
             .ToListAsync();
@@ -123,5 +124,79 @@ public class AppResourceService : ServiceBase
         var items = await query.SingleAsync();
 
         return Mapper.Map<AppResourceGetOutDto>(items);
+    }
+
+    /// <summary>
+    /// 获取树清单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task<IList<AppResourceQueryTreeSelectOutDto>> QueryTreeSelect(AppResourceQueryInDto input)
+    {
+        var query = from a in DefaultDbContext.AppResources.AsNoTracking()
+                    select a;
+
+        #region filter
+        #endregion
+
+        var items = await query
+            .OrderBy(x => x.SortNo)
+            .ToListAsync();
+
+        var treeItems = items.ToTree<AppResource>(
+            (r, c) =>
+            {
+                return c.ParentId == null;
+            },
+            (r, c) =>
+            {
+                return r.Id == c.ParentId;
+            },
+            (r, dataList) =>
+            {
+                r.Children ??= new List<AppResource>();
+                r.Children.AddRange(dataList);
+            });
+
+        var itemDtos = Mapper.Map<IList<AppResourceQueryTreeSelectOutDto>>(treeItems);
+
+        return itemDtos;
+    }
+
+    /// <summary>
+    /// 获取树表格清单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task<IList<AppResourceQueryTreeTableOutDto>> QueryTreeTable(AppResourceQueryInDto input)
+    {
+        var query = from a in DefaultDbContext.AppResources.AsNoTracking()
+                    select a;
+
+        #region filter
+        #endregion
+
+        var items = await query
+            .OrderBy(x => x.SortNo)
+            .ToListAsync();
+
+        var treeItems = items.ToTree<AppResource>(
+            (r, c) =>
+            {
+                return c.ParentId == null;
+            },
+            (r, c) =>
+            {
+                return r.Id == c.ParentId;
+            },
+            (r, dataList) =>
+            {
+                r.Children ??= new List<AppResource>();
+                r.Children.AddRange(dataList);
+            });
+
+        var itemDtos = Mapper.Map<IList<AppResourceQueryTreeTableOutDto>>(treeItems);
+
+        return itemDtos;
     }
 }

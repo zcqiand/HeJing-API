@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CommonMormon.Infrastructure.Core.Utils;
+using CommonMormon.Infrastructure.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
@@ -40,6 +41,29 @@ public abstract class AppControllerBase : Controller
     /// 配置
     /// </summary>
     protected IConfiguration Configuration { get; }
+
+    /// <summary>
+    /// 创建
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    protected void Create<T>(T data) where T : CreateInBase
+    {
+        data.CreateTime = DateTimeOffset.UtcNow;
+        data.LastModifyTime = DateTimeOffset.UtcNow;
+    }
+
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    protected void Update<T>(T data) where T : UpdateInBase
+    {
+        data.LastModifyTime = DateTimeOffset.UtcNow;
+    }
 
     /// <summary>
     /// 成功

@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommonMormon.Infrastructure.Shared\CommonMormon.Infrastructure.Shared.csproj" />
     <ProjectReference Include="..\CommonMormon.Infrastructure\CommonMormon.Infrastructure.csproj" />
   </ItemGroup>
 
