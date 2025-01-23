@@ -74,6 +74,8 @@ public class DtoToDomainProfile : Profile
         CreateMap<OwnerDepartmentUpdateInDto, OwnerDepartment>();
         CreateMap<OwnerDepartment, OwnerDepartmentQueryOutDto>();
         CreateMap<OwnerDepartment, OwnerDepartmentGetOutDto>();
+        CreateMap<OwnerDepartment, OwnerDepartmentQueryTreeSelectOutDto>();
+        CreateMap<OwnerDepartment, OwnerDepartmentQueryTreeTableOutDto>();
         #endregion
 
         #region OwnerEmployee

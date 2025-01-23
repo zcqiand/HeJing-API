@@ -68,11 +68,6 @@ public partial class OwnerEmployee : Entity
     [Comment("备注")]
     public string? Remark { get; set; }
     /// <summary>
-    /// 是否启用
-    /// </summary>
-    [Comment("是否启用")]
-    public bool EnabledFlag { get; set; }
-    /// <summary>
     /// 排序号
     /// </summary>
     [Comment("排序号")]

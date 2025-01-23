@@ -26,10 +26,6 @@ public class OwnerDepartmentCreateInDto : CreateInBase
     /// </summary>
     public string? Remark { get; set; }
     /// <summary>
-    /// 是否启用
-    /// </summary>
-    public string EnabledFlag { get; set; } = null!;
-    /// <summary>
     /// 排序号
     /// </summary>
     public int SortNo { get; set; }

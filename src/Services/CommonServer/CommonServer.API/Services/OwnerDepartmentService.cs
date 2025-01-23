@@ -124,4 +124,80 @@ public class OwnerDepartmentService : ServiceBase
 
         return Mapper.Map<OwnerDepartmentGetOutDto>(items);
     }
+
+
+
+    /// <summary>
+    /// 获取树清单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task<IList<OwnerDepartmentQueryTreeSelectOutDto>> QueryTreeSelect(OwnerDepartmentQueryInDto input)
+    {
+        var query = from a in DefaultDbContext.OwnerDepartments.AsNoTracking()
+                    select a;
+
+        #region filter
+        #endregion
+
+        var items = await query
+            .OrderBy(x => x.SortNo)
+            .ToListAsync();
+
+        var treeItems = items.ToTree<OwnerDepartment>(
+            (r, c) =>
+            {
+                return c.ParentId == null;
+            },
+            (r, c) =>
+            {
+                return r.Id == c.ParentId;
+            },
+            (r, dataList) =>
+            {
+                r.Children ??= new List<OwnerDepartment>();
+                r.Children.AddRange(dataList);
+            });
+
+        var itemDtos = Mapper.Map<IList<OwnerDepartmentQueryTreeSelectOutDto>>(treeItems);
+
+        return itemDtos;
+    }
+
+    /// <summary>
+    /// 获取树表格清单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task<IList<OwnerDepartmentQueryTreeTableOutDto>> QueryTreeTable(OwnerDepartmentQueryInDto input)
+    {
+        var query = from a in DefaultDbContext.OwnerDepartments.AsNoTracking()
+                    select a;
+
+        #region filter
+        #endregion
+
+        var items = await query
+            .OrderBy(x => x.SortNo)
+            .ToListAsync();
+
+        var treeItems = items.ToTree<OwnerDepartment>(
+            (r, c) =>
+            {
+                return c.ParentId == null;
+            },
+            (r, c) =>
+            {
+                return r.Id == c.ParentId;
+            },
+            (r, dataList) =>
+            {
+                r.Children ??= new List<OwnerDepartment>();
+                r.Children.AddRange(dataList);
+            });
+
+        var itemDtos = Mapper.Map<IList<OwnerDepartmentQueryTreeTableOutDto>>(treeItems);
+
+        return itemDtos;
+    }
 }
