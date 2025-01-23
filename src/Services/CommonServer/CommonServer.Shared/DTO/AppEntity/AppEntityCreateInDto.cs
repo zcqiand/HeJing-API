@@ -24,7 +24,7 @@ public class AppEntityCreateInDto : CreateInBase
     /// <summary>
     /// 是否启用
     /// </summary>
-    public string EnabledFlag { get; set; } = null!;
+    public bool EnabledFlag { get; set; }
     /// <summary>
     /// 排序号
     /// </summary>

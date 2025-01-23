@@ -40,7 +40,7 @@ services.AddDbContext<CommonServerDbContext>(options =>
 
 services.Scan(
     scan => scan
-    .FromAssemblyOf<ServiceBase>()
+    .FromAssemblyOf<Program>()
     .AddClasses(classes => classes.Where(
         t => t.Name.EndsWith("Service", StringComparison.Ordinal)))
     .AsSelf()
