@@ -6,7 +6,7 @@
 public class OwnerEntityDeleteInDto
 {
     /// <summary>
-    /// 标识
+    /// 
     /// </summary>
     public Guid Id { get; set; }
 }
