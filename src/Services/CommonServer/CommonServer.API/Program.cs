@@ -40,7 +40,7 @@ services.AddDbContext<CommonServerDbContext>(options =>
 
 services.Scan(
     scan => scan
-    .FromAssemblyOf<Program>()
+    .FromAssemblyOf<ServiceBase>()
     .AddClasses(classes => classes.Where(
         t => t.Name.EndsWith("Service", StringComparison.Ordinal)))
     .AsSelf()
@@ -92,10 +92,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
 
 app.MapGet("/test", (IConfiguration configuration) =>
 {
