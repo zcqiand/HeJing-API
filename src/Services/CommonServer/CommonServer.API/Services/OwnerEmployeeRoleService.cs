@@ -1,4 +1,5 @@
 ﻿using CommonServer.Shared.DTO.OwnerEmployeeRole;
+using System.Collections.Generic;
 
 namespace CommonServer.API.Services;
 
@@ -90,21 +91,41 @@ public class OwnerEmployeeRoleService : ServiceBase
     /// <returns></returns>
     public async Task<PagingOutBase<OwnerEmployeeRoleQueryOutDto>> Query(OwnerEmployeeRoleQueryInDto input)
     {
-        var query = from a in DefaultDbContext.OwnerEmployeeRoles.AsNoTracking()
-                    select a;
+        var query = from a in DefaultDbContext.OwnerEmployees.AsNoTracking()
+                    join b in DefaultDbContext.OwnerEmployeeRoles.Where(x => x.RoleId == input.RoleId).AsNoTracking() on a.Id equals b.EmployeeId into outJoin
+                    from b in outJoin.DefaultIfEmpty()
+                    select new { a,b };
 
         #region filter
+        query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Name), x => x.a.Name.Contains(input.Name!));
         #endregion
 
         var total = await query.CountAsync();
 
         var items = await query
-            .OrderByDescending(x=>x.LastModifyTime)
+            .OrderBy(x=>x.a.SortNo)
             .Skip((input.PageIndex - 1) * input.PageSize)
             .Take(input.PageSize)
             .ToListAsync();
 
-        var itemDtos = Mapper.Map<IList<OwnerEmployeeRoleQueryOutDto>>(items);
+        IEnumerable<OwnerEmployeeRoleQueryOutDto> itemDtos;
+        if (items != null && items.Count > 0)
+        {
+            itemDtos = from x in items
+                        select new OwnerEmployeeRoleQueryOutDto
+                        {
+                            RoleId = x.b?.RoleId,
+                            EmployeeId = x.a.Id,
+                            Name = x.a.Name,
+                            Id = x.b?.Id,
+                            CreateTime = x.b?.CreateTime,
+                            LastModifyTime = x.b?.LastModifyTime
+                        };
+        }
+        else
+        {
+            itemDtos = [];
+        }
 
         return new PagingOutBase<OwnerEmployeeRoleQueryOutDto>(total, itemDtos);
     }

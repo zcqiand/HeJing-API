@@ -20,12 +20,6 @@ public partial class OwnerRoleFunction : Entity
     public Guid RoleId { get; set; }
     public OwnerRole? Role { get; set; }
     /// <summary>
-    /// 资源标识
-    /// </summary>
-    [Comment("资源标识")]
-    public Guid? ResourceId { get; set; }
-    public AppResource? Resource { get; set; }
-    /// <summary>
     /// 功能标识
     /// </summary>
     [Comment("功能标识")]

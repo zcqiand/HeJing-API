@@ -1,4 +1,6 @@
-﻿namespace CommonServer.Shared.DTO.OwnerEmployee;
+﻿using CommonServer.Shared.Enums;
+
+namespace CommonServer.Shared.DTO.OwnerEmployee;
 
 /// <summary>
 /// 员工
@@ -28,7 +30,7 @@ public class OwnerEmployeeQueryOutDto
     /// <summary>
     /// 性别
     /// </summary>
-    public int Gender { get; set; }
+    public GenderEnum Gender { get; set; }
     /// <summary>
     /// 昵称
     /// </summary>

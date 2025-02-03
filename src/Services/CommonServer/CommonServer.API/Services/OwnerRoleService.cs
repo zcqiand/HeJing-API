@@ -52,6 +52,138 @@ public class OwnerRoleService : ServiceBase
     }
 
     /// <summary>
+    /// 维护成员
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task<bool> UpdateEmployee(OwnerRoleUpdateEmployeeInDto input)
+    {
+        // 1. 获取表中已有的数据
+        var existingEmployees = await DefaultDbContext.OwnerEmployeeRoles
+            .Where(x => x.RoleId == input.Id)
+            .ToListAsync();
+
+        // 2. 找出需要插入的数据
+        var employeesToAdd = input.EmployeeIds
+            .Where(employeeId => !existingEmployees.Any(x => x.EmployeeId == employeeId))
+            .Select(employeeId => new OwnerEmployeeRole
+            {
+                Id = NewId.NextSequentialGuid(),
+                EmployeeId = employeeId,
+                RoleId = input.Id
+            })
+            .ToList();
+
+        // 3. 找出需要删除的数据
+        var employeesToRemove = existingEmployees
+            .Where(x => !input.EmployeeIds.Contains(x.EmployeeId))
+            .ToList();
+
+        // 4. 执行数据库操作
+        if (employeesToAdd.Any())
+        {
+            await DefaultDbContext.OwnerEmployeeRoles.AddRangeAsync(employeesToAdd);
+        }
+
+        if (employeesToRemove.Any())
+        {
+            DefaultDbContext.OwnerEmployeeRoles.RemoveRange(employeesToRemove);
+        }
+
+        await DefaultDbContext.SaveChangesAsync();
+
+        return true;
+    }
+
+    /// <summary>
+    /// 功能授权
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task<bool> UpdateFunction(OwnerRoleUpdateFunctionInDto input)
+    {
+        // 1. 获取表中已有的数据
+        var existingFunctions = await DefaultDbContext.OwnerRoleFunctions
+            .Where(x => x.RoleId == input.Id)
+            .ToListAsync();
+
+        // 2. 找出需要插入的数据
+        var functionsToAdd = input.FunctionIds
+            .Where(functionId => !existingFunctions.Any(x => x.FunctionId == functionId))
+            .Select(functionId => new OwnerRoleFunction
+            {
+                Id = NewId.NextSequentialGuid(),
+                FunctionId = functionId,
+                RoleId = input.Id
+            })
+            .ToList();
+
+        // 3. 找出需要删除的数据
+        var functionsToRemove = existingFunctions
+            .Where(x => !input.FunctionIds.Contains(x.FunctionId))
+            .ToList();
+
+        // 4. 执行数据库操作
+        if (functionsToAdd.Any())
+        {
+            await DefaultDbContext.OwnerRoleFunctions.AddRangeAsync(functionsToAdd);
+        }
+
+        if (functionsToRemove.Any())
+        {
+            DefaultDbContext.OwnerRoleFunctions.RemoveRange(functionsToRemove);
+        }
+
+        await DefaultDbContext.SaveChangesAsync();
+
+        return true;
+    }
+
+    /// <summary>
+    /// 资源授权
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task<bool> UpdateResource(OwnerRoleUpdateResourceInDto input)
+    {
+        // 1. 获取表中已有的数据
+        var existingResources = await DefaultDbContext.OwnerRoleResources
+            .Where(x => x.RoleId == input.Id)
+            .ToListAsync();
+
+        // 2. 找出需要插入的数据
+        var resourcesToAdd = input.ResourceIds
+            .Where(resourceId => !existingResources.Any(x => x.ResourceId == resourceId))
+            .Select(resourceId => new OwnerRoleResource
+            {
+                Id = NewId.NextSequentialGuid(),
+                ResourceId = resourceId,
+                RoleId = input.Id
+            })
+            .ToList();
+
+        // 3. 找出需要删除的数据
+        var resourcesToRemove = existingResources
+            .Where(x => !input.ResourceIds.Contains(x.ResourceId))
+            .ToList();
+
+        // 4. 执行数据库操作
+        if (resourcesToAdd.Any())
+        {
+            await DefaultDbContext.OwnerRoleResources.AddRangeAsync(resourcesToAdd);
+        }
+
+        if (resourcesToRemove.Any())
+        {
+            DefaultDbContext.OwnerRoleResources.RemoveRange(resourcesToRemove);
+        }
+
+        await DefaultDbContext.SaveChangesAsync();
+
+        return true;
+    }
+
+    /// <summary>
     /// 删除
     /// </summary>
     /// <param name="input"></param>

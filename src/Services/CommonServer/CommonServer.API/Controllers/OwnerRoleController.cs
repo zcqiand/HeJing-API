@@ -46,6 +46,42 @@ public class OwnerRoleController : AppControllerBase
     }
 
     /// <summary>
+    /// 维护成员
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ApiResult<bool>> UpdateEmployee(OwnerRoleUpdateEmployeeInDto input)
+    {
+        var result = await _service.UpdateEmployee(input);
+        return Success(result);
+    }
+
+    /// <summary>
+    /// 功能授权
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ApiResult<bool>> UpdateFunction(OwnerRoleUpdateFunctionInDto input)
+    {
+        var result = await _service.UpdateFunction(input);
+        return Success(result);
+    }
+
+    /// <summary>
+    /// 资源授权
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ApiResult<bool>> UpdateResource(OwnerRoleUpdateResourceInDto input)
+    {
+        var result = await _service.UpdateResource(input);
+        return Success(result);
+    }
+
+    /// <summary>
     /// 删除
     /// </summary>
     /// <param name="input"></param>
