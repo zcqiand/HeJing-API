@@ -6,11 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CommonServer.Domain.Model;
 
 /// <summary>
-/// 操作日志
+/// 审计日志
 /// </summary>
-[Table("AppOperationLog")]
-[Comment("操作日志")]
-public partial class AppOperationLog : Entity
+[Table("AppAuditLog")]
+[Comment("审计日志")]
+public partial class AppAuditLog : Entity
 {
     /// <summary>
     /// 事件

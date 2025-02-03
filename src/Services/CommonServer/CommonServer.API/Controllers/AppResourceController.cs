@@ -92,4 +92,28 @@ public class AppResourceController : AppControllerBase
         var result = await _service.Get(input);
         return Success(result);
     }
+
+    /// <summary>
+    /// 获取树下拉框清单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<ApiResult<IList<AppResourceQueryTreeSelectOutDto>>> QueryTreeSelect([FromQuery] AppResourceQueryInDto input)
+    {
+        var data = await _service.QueryTreeSelect(input);
+        return Success(data);
+    }
+
+    /// <summary>
+    /// 获取树表格清单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<ApiResult<IList<AppResourceQueryTreeTableOutDto>>> QueryTreeTable([FromQuery] AppResourceQueryInDto input)
+    {
+        var data = await _service.QueryTreeTable(input);
+        return Success(data);
+    }
 }

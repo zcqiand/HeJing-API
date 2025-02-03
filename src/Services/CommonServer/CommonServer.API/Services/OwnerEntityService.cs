@@ -1,4 +1,5 @@
-﻿using CommonServer.Shared.DTO.OwnerEntity;
+﻿using CommonServer.Shared.DTO.OwnerEmployee;
+using CommonServer.Shared.DTO.OwnerEntity;
 
 namespace CommonServer.API.Services;
 
@@ -44,7 +45,7 @@ public class OwnerEntityService : ServiceBase
 
         Mapper.Map(input, model);
 
-        model.LastModifyTime = DateTimeOffset.Now;
+        model.LastModifyTime = DateTimeOffset.UtcNow;
 
         await DefaultDbContext.SaveChangesAsync();
 

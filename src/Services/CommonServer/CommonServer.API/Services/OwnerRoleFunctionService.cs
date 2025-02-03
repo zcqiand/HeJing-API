@@ -1,4 +1,5 @@
-﻿using CommonServer.Shared.DTO.OwnerRoleFunction;
+﻿using CommonServer.Shared.DTO.OwnerEmployeeRole;
+using CommonServer.Shared.DTO.OwnerRoleFunction;
 
 namespace CommonServer.API.Services;
 
@@ -44,7 +45,7 @@ public class OwnerRoleFunctionService : ServiceBase
 
         Mapper.Map(input, model);
 
-        model.LastModifyTime = DateTimeOffset.Now;
+        model.LastModifyTime = DateTimeOffset.UtcNow;
 
         await DefaultDbContext.SaveChangesAsync();
 
@@ -90,21 +91,42 @@ public class OwnerRoleFunctionService : ServiceBase
     /// <returns></returns>
     public async Task<PagingOutBase<OwnerRoleFunctionQueryOutDto>> Query(OwnerRoleFunctionQueryInDto input)
     {
-        var query = from a in DefaultDbContext.OwnerRoleFunctions.AsNoTracking()
-                    select a;
+
+        var query = from a in DefaultDbContext.AppFunctions.AsNoTracking()
+                    join b in DefaultDbContext.OwnerRoleFunctions.Where(x=>x.RoleId == input.RoleId).AsNoTracking() on a.Id equals b.FunctionId into outJoin
+                    from b in outJoin.DefaultIfEmpty()
+                    select new { a, b };
 
         #region filter
+        query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Name), x => x.a.Name.Contains(input.Name!));
         #endregion
 
         var total = await query.CountAsync();
 
         var items = await query
-            .OrderByDescending(x=>x.LastModifyTime)
+            .OrderBy(x => x.a.SortNo)
             .Skip((input.PageIndex - 1) * input.PageSize)
             .Take(input.PageSize)
             .ToListAsync();
 
-        var itemDtos = Mapper.Map<IList<OwnerRoleFunctionQueryOutDto>>(items);
+        IEnumerable<OwnerRoleFunctionQueryOutDto> itemDtos;
+        if (items != null && items.Count > 0)
+        {
+            itemDtos = from x in items
+                       select new OwnerRoleFunctionQueryOutDto
+                       {
+                           RoleId = x.b?.RoleId,
+                           FunctionId = x.a.Id,
+                           Name = x.a.Name,
+                           Id = x.b?.Id,
+                           CreateTime = x.b?.CreateTime,
+                           LastModifyTime = x.b?.LastModifyTime
+                       };
+        }
+        else
+        {
+            itemDtos = [];
+        }
 
         return new PagingOutBase<OwnerRoleFunctionQueryOutDto>(total, itemDtos);
     }

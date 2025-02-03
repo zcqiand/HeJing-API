@@ -18,6 +18,7 @@ public partial class CommonServerDbContext : DbContext
     public virtual DbSet<AppResource> AppResources { get; set; } = null!;
     public virtual DbSet<AppFunction> AppFunctions { get; set; } = null!;
     public virtual DbSet<AppOperationLog> AppOperationLogs { get; set; } = null!;
+    public virtual DbSet<AppAuditLog> AppAuditLogs { get; set; } = null!;
     public virtual DbSet<OwnerEntity> OwnerEntities { get; set; } = null!;
     public virtual DbSet<OwnerRole> OwnerRoles { get; set; } = null!;
     public virtual DbSet<OwnerRoleResource> OwnerRoleResources { get; set; } = null!;

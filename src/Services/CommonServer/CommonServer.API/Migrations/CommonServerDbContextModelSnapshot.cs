@@ -22,6 +22,62 @@ namespace CommonServer.API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CommonServer.Domain.Model.AppAuditLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasComment("标识");
+
+                    b.Property<string>("Action")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Category")
+                        .HasColumnType("text")
+                        .HasComment("分类");
+
+                    b.Property<DateTimeOffset>("CreateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasComment("创建时间");
+
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("text")
+                        .HasComment("事件");
+
+                    b.Property<DateTimeOffset>("LastModifyTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
+
+                    b.Property<string>("Source")
+                        .HasColumnType("text")
+                        .HasComment("来源");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text")
+                        .HasComment("用户标识");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text")
+                        .HasComment("用户名称");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppAuditLog", t =>
+                        {
+                            t.HasComment("审计日志");
+                        });
+                });
+
             modelBuilder.Entity("CommonServer.Domain.Model.AppData", b =>
                 {
                     b.Property<Guid>("Id")
@@ -38,9 +94,17 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -81,6 +145,10 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<bool>("EnabledFlag")
                         .HasColumnType("boolean")
                         .HasComment("是否启用");
@@ -88,6 +156,10 @@ namespace CommonServer.API.Migrations
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -128,9 +200,17 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -172,6 +252,10 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<string>("Data")
                         .HasColumnType("text");
 
@@ -182,6 +266,10 @@ namespace CommonServer.API.Migrations
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Source")
                         .HasColumnType("text")
@@ -218,6 +306,10 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<string>("Icon")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
@@ -246,6 +338,10 @@ namespace CommonServer.API.Migrations
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -307,13 +403,17 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
-                    b.Property<bool>("EnabledFlag")
-                        .HasColumnType("boolean")
-                        .HasComment("是否启用");
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
 
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -366,6 +466,10 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<Guid>("DepartmentId")
                         .HasColumnType("uuid")
                         .HasComment("部门标识");
@@ -375,10 +479,6 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("character varying(200)")
                         .HasComment("电子邮箱");
 
-                    b.Property<bool>("EnabledFlag")
-                        .HasColumnType("boolean")
-                        .HasComment("是否启用");
-
                     b.Property<int>("Gender")
                         .HasMaxLength(200)
                         .HasColumnType("integer")
@@ -387,6 +487,10 @@ namespace CommonServer.API.Migrations
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -438,6 +542,10 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uuid")
                         .HasComment("用户标识");
@@ -445,6 +553,10 @@ namespace CommonServer.API.Migrations
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<Guid>("RoleId")
                         .HasMaxLength(50)
@@ -494,6 +606,10 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<string>("Email")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
@@ -506,6 +622,10 @@ namespace CommonServer.API.Migrations
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -561,9 +681,17 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -599,6 +727,10 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<Guid?>("DataId")
                         .HasColumnType("uuid")
                         .HasComment("数据标识");
@@ -606,6 +738,10 @@ namespace CommonServer.API.Migrations
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<Guid>("RoleId")
                         .HasMaxLength(50)
@@ -634,6 +770,10 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<Guid>("FunctionId")
                         .HasColumnType("uuid")
                         .HasComment("功能标识");
@@ -642,9 +782,9 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
 
-                    b.Property<Guid?>("ResourceId")
+                    b.Property<Guid?>("LastModifyUserId")
                         .HasColumnType("uuid")
-                        .HasComment("资源标识");
+                        .HasComment("最后更新人标识");
 
                     b.Property<Guid>("RoleId")
                         .HasMaxLength(50)
@@ -654,8 +794,6 @@ namespace CommonServer.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FunctionId");
-
-                    b.HasIndex("ResourceId");
 
                     b.HasIndex("RoleId");
 
@@ -675,9 +813,17 @@ namespace CommonServer.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasComment("创建时间");
 
+                    b.Property<Guid?>("CreateUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("创建人标识");
+
                     b.Property<DateTimeOffset>("LastModifyTime")
                         .HasColumnType("timestamp with time zone")
                         .HasComment("最后更新时间");
+
+                    b.Property<Guid?>("LastModifyUserId")
+                        .HasColumnType("uuid")
+                        .HasComment("最后更新人标识");
 
                     b.Property<Guid>("ResourceId")
                         .HasColumnType("uuid")
@@ -792,10 +938,6 @@ namespace CommonServer.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CommonServer.Domain.Model.AppResource", "Resource")
-                        .WithMany()
-                        .HasForeignKey("ResourceId");
-
                     b.HasOne("CommonServer.Domain.Model.OwnerRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -803,8 +945,6 @@ namespace CommonServer.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Function");
-
-                    b.Navigation("Resource");
 
                     b.Navigation("Role");
                 });

@@ -37,6 +37,8 @@ public class DtoToDomainProfile : Profile
         CreateMap<AppResourceUpdateInDto, AppResource>();
         CreateMap<AppResource, AppResourceQueryOutDto>();
         CreateMap<AppResource, AppResourceGetOutDto>();
+        CreateMap<AppResource, AppResourceQueryTreeSelectOutDto>();
+        CreateMap<AppResource, AppResourceQueryTreeTableOutDto>();
         #endregion
 
         #region AppFunction
@@ -72,6 +74,8 @@ public class DtoToDomainProfile : Profile
         CreateMap<OwnerDepartmentUpdateInDto, OwnerDepartment>();
         CreateMap<OwnerDepartment, OwnerDepartmentQueryOutDto>();
         CreateMap<OwnerDepartment, OwnerDepartmentGetOutDto>();
+        CreateMap<OwnerDepartment, OwnerDepartmentQueryTreeSelectOutDto>();
+        CreateMap<OwnerDepartment, OwnerDepartmentQueryTreeTableOutDto>();
         #endregion
 
         #region OwnerEmployee

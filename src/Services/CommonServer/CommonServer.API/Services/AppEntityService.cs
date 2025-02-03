@@ -44,7 +44,7 @@ public class AppEntityService : ServiceBase
 
         Mapper.Map(input, model);
 
-        model.LastModifyTime = DateTimeOffset.Now;
+        model.LastModifyTime = DateTimeOffset.UtcNow;
 
         await DefaultDbContext.SaveChangesAsync();
 
@@ -99,7 +99,8 @@ public class AppEntityService : ServiceBase
         var total = await query.CountAsync();
 
         var items = await query
-            .OrderByDescending(x=>x.LastModifyTime)
+            .OrderBy(x => x.SortNo)
+            .ThenByDescending(x=>x.LastModifyTime)
             .Skip((input.PageIndex - 1) * input.PageSize)
             .Take(input.PageSize)
             .ToListAsync();

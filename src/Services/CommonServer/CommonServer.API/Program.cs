@@ -1,9 +1,5 @@
 using CommonServer.API.Mappers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-
-//using CommonServer.HostApp.Services;
-//using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using OpenIddict.Validation.AspNetCore;
 using System.Reflection;
@@ -26,7 +22,7 @@ services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>())
+        builder.WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>() ?? throw new InvalidOperationException("Connection string 'AllowedOrigins' not found."))
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials();
@@ -96,10 +92,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
 
 app.MapGet("/test", (IConfiguration configuration) =>
 {
@@ -108,5 +105,12 @@ app.MapGet("/test", (IConfiguration configuration) =>
 
 app.MapControllers()
     .RequireAuthorization("ApiScope");
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<CommonServerDbContext>();
+    context.Database.Migrate();
+}
 
 app.Run();

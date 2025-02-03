@@ -1,12 +1,10 @@
 using IdentityServer.Infrastructure;
 using IdentityServer.WebApp;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Quartz;
-using static OpenIddict.Server.OpenIddictServerEvents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -117,7 +115,7 @@ services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>())
+        builder.WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>() ?? throw new InvalidOperationException("Connection string 'AllowedOrigins' not found."))
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials();
@@ -125,6 +123,7 @@ services.AddCors(options =>
 });
 
 services.AddAuthorization();
+
 services.AddAuthentication().AddGoogle(googleOptions =>
 {
     IConfigurationSection googleAuthNSection =

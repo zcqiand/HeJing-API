@@ -1,4 +1,6 @@
-﻿using CommonServer.Shared.DTO.OwnerRoleResource;
+﻿using CommonMormon.Infrastructure.Core.Extensions;
+using CommonServer.Shared.DTO.OwnerRoleFunction;
+using CommonServer.Shared.DTO.OwnerRoleResource;
 
 namespace CommonServer.API.Services;
 
@@ -44,7 +46,7 @@ public class OwnerRoleResourceService : ServiceBase
 
         Mapper.Map(input, model);
 
-        model.LastModifyTime = DateTimeOffset.Now;
+        model.LastModifyTime = DateTimeOffset.UtcNow;
 
         await DefaultDbContext.SaveChangesAsync();
 
@@ -90,23 +92,59 @@ public class OwnerRoleResourceService : ServiceBase
     /// <returns></returns>
     public async Task<PagingOutBase<OwnerRoleResourceQueryOutDto>> Query(OwnerRoleResourceQueryInDto input)
     {
-        var query = from a in DefaultDbContext.OwnerRoleResources.AsNoTracking()
-                    select a;
+        var query = from a in DefaultDbContext.AppResources.AsNoTracking()
+                    join b in DefaultDbContext.OwnerRoleResources.Where(x => x.RoleId == input.RoleId).AsNoTracking() on a.Id equals b.ResourceId into outJoin
+                    from b in outJoin.DefaultIfEmpty()
+                    select new { a, b };
 
         #region filter
+        query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Title), x => x.a.Title.Contains(input.Title!));
         #endregion
 
         var total = await query.CountAsync();
 
         var items = await query
-            .OrderByDescending(x=>x.LastModifyTime)
+            .OrderBy(x => x.a.SortNo)
             .Skip((input.PageIndex - 1) * input.PageSize)
             .Take(input.PageSize)
             .ToListAsync();
 
-        var itemDtos = Mapper.Map<IList<OwnerRoleResourceQueryOutDto>>(items);
+        List<OwnerRoleResourceQueryOutDto> itemDtos;
+        if (items != null && items.Count > 0)
+        {
+            itemDtos = (from x in items
+                       select new OwnerRoleResourceQueryOutDto
+                       {
+                           RoleId = x.b?.RoleId,
+                           ResourceId = x.a.Id,
+                           ParentResourceId = x.a.ParentId,
+                           Title = x.a.Title,
+                           Id = x.b?.Id,
+                           CreateTime = x.b?.CreateTime,
+                           LastModifyTime = x.b?.LastModifyTime
+                       }).ToList();
+        }
+        else
+        {
+            itemDtos = [];
+        }
 
-        return new PagingOutBase<OwnerRoleResourceQueryOutDto>(total, itemDtos);
+        var treeItemDtos = itemDtos.ToTree<OwnerRoleResourceQueryOutDto>(
+            (r, c) =>
+            {
+                return c.ParentResourceId == null;
+            },
+            (r, c) =>
+            {
+                return r.ResourceId == c.ParentResourceId;
+            },
+            (r, dataList) =>
+            {
+                r.Children ??= new List<OwnerRoleResourceQueryOutDto>();
+                r.Children.AddRange(dataList);
+            });
+
+        return new PagingOutBase<OwnerRoleResourceQueryOutDto>(total, treeItemDtos);
     }
 
     /// <summary>
