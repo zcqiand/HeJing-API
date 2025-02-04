@@ -18,7 +18,8 @@ var connectionString = builder.Configuration.GetConnectionString("IdentityServer
 services.AddDbContext<IdentityServerDbContext>(options =>
 {
     options.EnableSensitiveDataLogging(true);
-    options.UseNpgsql(connectionString, b => b.MigrationsAssembly("IdentityServer.WebApp"));
+    options.UseSqlServer(connectionString, b => b.MigrationsAssembly("IdentityServer.WebApp"));
+    //options.UseNpgsql(connectionString, b => b.MigrationsAssembly("IdentityServer.WebApp"));
 
     // 注册 OpenIddict 所需的实体集。
     options.UseOpenIddict();

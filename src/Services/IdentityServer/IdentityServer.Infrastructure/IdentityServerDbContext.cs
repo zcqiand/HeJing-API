@@ -13,7 +13,7 @@ public class IdentityServerDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.HasDefaultSchema("public");
+        //builder.HasDefaultSchema("public");
         base.OnModelCreating(builder);
     }
 }
