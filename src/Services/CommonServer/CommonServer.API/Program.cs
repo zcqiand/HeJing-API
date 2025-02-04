@@ -106,7 +106,6 @@ app.MapGet("/test", (IConfiguration configuration) =>
 app.MapControllers()
     .RequireAuthorization("ApiScope");
 
-
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<CommonServerDbContext>();
