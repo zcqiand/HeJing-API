@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OpenIddict.Server;
 using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,9 +53,23 @@ services.AddOpenIddict()
         options.UseQuartz();
     })
     .AddServer(options =>
-     {
-         // Enable the authorization, token, introspection and userinfo endpoints.
-         options.SetAuthorizationEndpointUris(configuration["OpenIddict:Endpoints:Authorization"]!)
+    {
+        options.RemoveEventHandler(OpenIddictServerHandlers.Authentication.ValidateRedirectUriParameter.Descriptor);
+        options.AddEventHandler<OpenIddictServerEvents.ValidateAuthorizationRequestContext>(builder =>
+        {
+            builder.UseInlineHandler(context =>
+            {
+                if (!string.IsNullOrEmpty(context.RedirectUri) && context.RedirectUri.Contains("#"))
+                {
+                    context.SkipRequest();
+                }
+                return default;
+            });
+            builder.SetOrder(OpenIddictServerHandlers.Authentication.ValidateRedirectUriParameter.Descriptor.Order);
+        });
+
+        // Enable the authorization, token, introspection and userinfo endpoints.
+        options.SetAuthorizationEndpointUris(configuration["OpenIddict:Endpoints:Authorization"]!)
                 .SetTokenEndpointUris(configuration["OpenIddict:Endpoints:Token"]!)
                 .SetIntrospectionEndpointUris(configuration["OpenIddict:Endpoints:Introspection"]!)
                 .SetUserinfoEndpointUris(configuration["OpenIddict:Endpoints:Userinfo"]!)
